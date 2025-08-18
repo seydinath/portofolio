@@ -81,7 +81,7 @@ export function AboutSection() {
             <div className="flex justify-center lg:justify-center">
               <div className="relative group">
                 {/* Main Image Container */}
-                <div className="relative w-80 h-80">
+                <div className="relative w-64 h-64 md:w-80 md:h-80">
                   {/* Animated Border */}
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-500 rounded-2xl p-1 animate-pulse">
                     <div className="w-full h-full bg-black rounded-2xl" />

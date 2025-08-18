@@ -8,6 +8,7 @@ import { ProjectsSection } from "@/components/projects-section"
 import { ContactSection } from "@/components/contact-section"
 import { AboutSection } from "@/components/about-section"
 import { LoadingScreen } from "@/components/loading-screen"
+// import { SimpleLoading } from "@/components/simple-loading" // Alternative simple
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
@@ -52,11 +53,24 @@ export default function Portfolio() {
   }, [isLoading])
 
   const handleLoadingComplete = () => {
+    console.log("Loading complete called") // Debug
     setIsLoading(false)
   }
 
+  // Debug: Forcer la fin du loading après 10 secondes max
+  useEffect(() => {
+    const maxTimer = setTimeout(() => {
+      console.log("Force complete loading") // Debug
+      setIsLoading(false)
+    }, 10000)
+
+    return () => clearTimeout(maxTimer)
+  }, [])
+
   if (isLoading) {
     return <LoadingScreen onComplete={handleLoadingComplete} />
+    // Si ça bloque encore, utilisez cette ligne à la place :
+    // return <SimpleLoading onComplete={handleLoadingComplete} />
   }
 
   return (

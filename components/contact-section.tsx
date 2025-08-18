@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, Send, CheckCircle } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Mail, MapPin, Phone, Send, CheckCircle, Clock, DollarSign, Globe } from "lucide-react"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -14,17 +15,46 @@ export function ContactSection() {
     email: "",
     subject: "",
     message: "",
+    projectType: "",
+    budget: "",
+    timeline: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {}
+
+    if (!formData.name.trim()) newErrors.name = "Le nom est requis"
+    if (!formData.email.trim()) newErrors.email = "L'email est requis"
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email invalide"
+    if (!formData.subject.trim()) newErrors.subject = "Le sujet est requis"
+    if (!formData.message.trim()) newErrors.message = "Le message est requis"
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }))
+    }
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!validateForm()) return
+
     setIsSubmitting(true)
 
     try {
@@ -34,6 +64,9 @@ export function ContactSection() {
 Nom: ${formData.name}
 Email: ${formData.email}
 Sujet: ${formData.subject}
+Type de projet: ${formData.projectType || "Non spécifié"}
+Budget: ${formData.budget || "À discuter"}
+Délais: ${formData.timeline || "Flexible"}
 
 Message:
 ${formData.message}
@@ -51,12 +84,12 @@ Envoyé depuis le portfolio
       setTimeout(() => {
         setIsSubmitting(false)
         setIsSubmitted(true)
-        setFormData({ name: "", email: "", subject: "", message: "" })
+        setFormData({ name: "", email: "", subject: "", message: "", projectType: "", budget: "", timeline: "" })
 
-        // Reset après 3 secondes
+        // Reset après 5 secondes
         setTimeout(() => {
           setIsSubmitted(false)
-        }, 3000)
+        }, 5000)
       }, 1000)
     } catch (error) {
       console.error("Erreur lors de l'envoi:", error)
@@ -75,8 +108,7 @@ Envoyé depuis le portfolio
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Prêt à concevoir ensemble des solutions qui allient{" "}
             <span className="text-emerald-400 font-semibold">excellence technique</span> et{" "}
-            <span className="text-emerald-400 font-semibold">élégance visuelle</span> ? Discutons de votre projet et
-            créons quelque chose d'exceptionnel.
+            <span className="text-emerald-400 font-semibold">élégance visuelle</span> ? Discutons de votre projet !
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-400 mx-auto mt-6 rounded-full shadow-lg shadow-emerald-500/50" />
         </div>
@@ -92,13 +124,22 @@ Envoyé depuis le portfolio
               </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="text-center mb-6">
-                <p className="text-gray-400 text-sm">
-                  <span className="text-emerald-400 font-semibold">Spécialités :</span> Front-End Development •
-                  Architecture Full Stack • Sécurité Réseau
-                </p>
+            {/* Quick Info Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <div className="bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl p-4 text-center">
+                <Clock className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+                <div className="text-white font-semibold text-sm">Réponse rapide</div>
+                <div className="text-gray-400 text-xs">Sous 24h</div>
               </div>
+              <div className="bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl p-4 text-center">
+                <DollarSign className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+                <div className="text-white font-semibold text-sm">Devis gratuit</div>
+                <div className="text-gray-400 text-xs">Sans engagement</div>
+              </div>
+            </div>
+
+            {/* Contact Methods */}
+            <div className="space-y-4">
               {[
                 {
                   icon: Mail,
@@ -115,7 +156,13 @@ Envoyé depuis le portfolio
                 {
                   icon: MapPin,
                   title: "Localisation",
-                  content: "Dakar, Sénégal",
+                  content: "Dakar, Sénégal 🇸🇳",
+                  href: "#",
+                },
+                {
+                  icon: Globe,
+                  title: "Langues",
+                  content: "Français, Anglais, Wolof",
                   href: "#",
                 },
               ].map(({ icon: Icon, title, content, href }) => (
@@ -135,6 +182,17 @@ Envoyé depuis le portfolio
                   </div>
                 </a>
               ))}
+            </div>
+
+            {/* Availability Status */}
+            <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-6">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span className="text-emerald-400 font-semibold">Disponible pour missions freelance</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                Spécialités : Développement Full Stack • Architecture Réseau • Sécurité CCNA
+              </p>
             </div>
           </div>
 
@@ -158,47 +216,93 @@ Envoyé depuis le portfolio
                     <div>
                       <Input
                         name="name"
-                        placeholder="Votre nom"
+                        placeholder="Votre nom *"
                         value={formData.name}
                         onChange={handleInputChange}
-                        required
-                        className="bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                        className={`bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20 ${
+                          errors.name ? "border-red-500/50" : ""
+                        }`}
                       />
+                      {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
                     </div>
                     <div>
                       <Input
                         name="email"
                         type="email"
-                        placeholder="Votre email"
+                        placeholder="Votre email *"
                         value={formData.email}
                         onChange={handleInputChange}
-                        required
-                        className="bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                        className={`bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20 ${
+                          errors.email ? "border-red-500/50" : ""
+                        }`}
                       />
+                      {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
                     </div>
                   </div>
 
                   <div>
                     <Input
                       name="subject"
-                      placeholder="Sujet"
+                      placeholder="Sujet *"
                       value={formData.subject}
                       onChange={handleInputChange}
-                      required
-                      className="bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                      className={`bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20 ${
+                        errors.subject ? "border-red-500/50" : ""
+                      }`}
                     />
+                    {errors.subject && <p className="text-red-400 text-xs mt-1">{errors.subject}</p>}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Select onValueChange={(value) => handleSelectChange("projectType", value)}>
+                      <SelectTrigger className="bg-black/20 border-emerald-500/30 text-white focus:border-emerald-500/50">
+                        <SelectValue placeholder="Type de projet" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="website">Site Web</SelectItem>
+                        <SelectItem value="app">Application</SelectItem>
+                        <SelectItem value="network">Réseau</SelectItem>
+                        <SelectItem value="consulting">Consulting</SelectItem>
+                        <SelectItem value="other">Autre</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select onValueChange={(value) => handleSelectChange("budget", value)}>
+                      <SelectTrigger className="bg-black/20 border-emerald-500/30 text-white focus:border-emerald-500/50">
+                        <SelectValue placeholder="Budget" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="lessThan5k">{"< 500k FCFA"}</SelectItem>
+                        <SelectItem value="5kTo10k">500k - 1M FCFA</SelectItem>
+                        <SelectItem value="10kTo25k">1M - 2.5M FCFA</SelectItem>
+                        <SelectItem value="moreThan25k">{"> 2.5M FCFA"}</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select onValueChange={(value) => handleSelectChange("timeline", value)}>
+                      <SelectTrigger className="bg-black/20 border-emerald-500/30 text-white focus:border-emerald-500/50">
+                        <SelectValue placeholder="Délais" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="urgent">Urgent (&lt; 1 mois)</SelectItem>
+                        <SelectItem value="normal">Normal (1-3 mois)</SelectItem>
+                        <SelectItem value="flexible">Flexible (&gt; 3 mois)</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div>
                     <Textarea
                       name="message"
-                      placeholder="Votre message..."
+                      placeholder="Décrivez votre projet... *"
                       rows={6}
                       value={formData.message}
                       onChange={handleInputChange}
-                      required
-                      className="bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20 resize-none"
+                      className={`bg-black/20 border-emerald-500/30 text-white placeholder:text-gray-500 focus:border-emerald-500/50 focus:ring-emerald-500/20 resize-none ${
+                        errors.message ? "border-red-500/50" : ""
+                      }`}
                     />
+                    {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
                   </div>
 
                   <Button
@@ -219,6 +323,8 @@ Envoyé depuis le portfolio
                       </>
                     )}
                   </Button>
+
+                  <p className="text-xs text-gray-500 text-center">* Champs obligatoires. Réponse garantie sous 24h.</p>
                 </form>
               )}
             </CardContent>

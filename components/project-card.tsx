@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Github, ExternalLink, Eye } from "lucide-react"
+import { Github, ExternalLink, Eye, Clock } from "lucide-react"
 import Image from "next/image"
 
 interface Project {
@@ -15,7 +15,9 @@ interface Project {
   githubUrl: string
   liveUrl: string
   imageUrl: string
-  component?: boolean
+  component?: string
+  difficulty?: string
+  duration?: string
 }
 
 interface ProjectCardProps {
@@ -25,6 +27,19 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+
+  const getDifficultyColor = (difficulty?: string) => {
+    switch (difficulty) {
+      case "Débutant":
+        return "bg-green-500/10 border-green-500/30 text-green-400"
+      case "Intermédiaire":
+        return "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"
+      case "Avancé":
+        return "bg-red-500/10 border-red-500/30 text-red-400"
+      default:
+        return "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+    }
+  }
 
   return (
     <Card
@@ -52,6 +67,15 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           }`}
         />
 
+        {/* Difficulty Badge */}
+        {project.difficulty && (
+          <div className="absolute top-4 left-4">
+            <Badge variant="outline" className={`${getDifficultyColor(project.difficulty)} backdrop-blur-sm`}>
+              {project.difficulty}
+            </Badge>
+          </div>
+        )}
+
         {/* Quick Actions */}
         <div
           className={`absolute top-4 right-4 flex space-x-2 transition-all duration-300 ${
@@ -61,7 +85,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <Button
             size="icon"
             variant="outline"
-            className="bg-black/50 backdrop-blur-sm border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50"
+            className="bg-black/50 backdrop-blur-sm border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 w-8 h-8"
             asChild
           >
             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -71,7 +95,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <Button
             size="icon"
             variant="outline"
-            className="bg-black/50 backdrop-blur-sm border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50"
+            className="bg-black/50 backdrop-blur-sm border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 w-8 h-8"
             asChild
           >
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
@@ -82,9 +106,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       </div>
 
       <CardHeader className="pb-3">
-        <h3 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">
-          {project.title}
-        </h3>
+        <div className="flex items-start justify-between">
+          <h3 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 flex-1">
+            {project.title}
+          </h3>
+          {project.duration && (
+            <div className="flex items-center space-x-1 text-gray-400 text-xs ml-2">
+              <Clock className="w-3 h-3" />
+              <span>{project.duration}</span>
+            </div>
+          )}
+        </div>
       </CardHeader>
 
       <CardContent className="pb-4">
@@ -92,15 +124,20 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
         {/* Technologies */}
         <div className="flex flex-wrap gap-2">
-          {project.technologies.map((tech) => (
+          {project.technologies.slice(0, 4).map((tech) => (
             <Badge
               key={tech}
               variant="outline"
-              className="bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors duration-300"
+              className="bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors duration-300 text-xs"
             >
               {tech}
             </Badge>
           ))}
+          {project.technologies.length > 4 && (
+            <Badge variant="outline" className="bg-gray-500/10 border-gray-500/30 text-gray-400 text-xs">
+              +{project.technologies.length - 4}
+            </Badge>
+          )}
         </div>
       </CardContent>
 
