@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Seydina Th.Diagne - Software Engineer Portfolio",
   description: "Portfolio de Seydina Th.Diagne - Développeur Full Stack Premium et Expert Réseau CCNA",
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export default function RootLayout({

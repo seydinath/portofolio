@@ -7,9 +7,11 @@ import { HeroSection } from "@/components/hero-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { ContactSection } from "@/components/contact-section"
 import { AboutSection } from "@/components/about-section"
+import { LoadingScreen } from "@/components/loading-screen"
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
+  const [isLoading, setIsLoading] = useState(true)
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -43,9 +45,19 @@ export default function Portfolio() {
       }
     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    if (!isLoading) {
+      window.addEventListener("scroll", handleScroll)
+      return () => window.removeEventListener("scroll", handleScroll)
+    }
+  }, [isLoading])
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false)
+  }
+
+  if (isLoading) {
+    return <LoadingScreen onComplete={handleLoadingComplete} />
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-900">
