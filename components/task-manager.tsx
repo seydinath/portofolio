@@ -241,12 +241,14 @@ export default function TaskManager() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-emerald-500">Système de gestion de tâches</h2>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setShowAnalytics(!showAnalytics)}><BarChart2 className="w-4 h-4 mr-1" /> Analytics</Button>
-            <Button variant="outline" onClick={reset}><RefreshCcw className="w-4 h-4 mr-1" /> Reset</Button>
-            <Button variant="outline" onClick={() => setShowHistory(!showHistory)}>Historique</Button>
-            <Button variant="outline" onClick={() => setShowCalendar(!showCalendar)}>Calendrier</Button>
-            <Button variant="outline" onClick={exportTasks}>Export</Button>
-            <Button variant="outline" onClick={importTasks}>Import</Button>
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+              <Button variant="outline" onClick={() => setShowAnalytics(!showAnalytics)}><BarChart2 className="w-4 h-4 mr-1" /> Analytics</Button>
+              <Button variant="outline" onClick={reset}><RefreshCcw className="w-4 h-4 mr-1" /> Reset</Button>
+              <Button variant="outline" onClick={() => setShowHistory(!showHistory)}>Historique</Button>
+              <Button variant="outline" onClick={() => setShowCalendar(!showCalendar)}>Calendrier</Button>
+              <Button variant="outline" onClick={exportTasks}>Export</Button>
+              <Button variant="outline" onClick={importTasks}>Import</Button>
+            </div>
           </div>
         </div>
         {/* Barre de recherche */}
