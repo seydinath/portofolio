@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react"
+import { ChevronDown } from "lucide-react"
+import ConfettiBurst from "./ConfettiBurst"
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -18,15 +20,8 @@ export function HeroSection() {
     }
   }
 
-  const downloadCV = () => {
-    // Créer un lien de téléchargement pour le CV
-    const link = document.createElement("a")
-    link.href = "/cv-seydina-diagne.pdf"
-    link.download = "CV-Seydina-Th-Diagne.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+  const [cvOpen, setCvOpen] = useState(false);
+  const [confetti, setConfetti] = useState(false);
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
@@ -114,15 +109,47 @@ export function HeroSection() {
             <ArrowDown className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-y-1 transition-transform duration-300" />
           </Button>
 
-          <Button
-            onClick={downloadCV}
-            variant="outline"
-            size="lg"
-            className="bg-transparent border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-500/50 px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105"
-          >
-            <Download className="mr-2 w-4 h-4 md:w-5 md:h-5" />
-            Télécharger CV
-          </Button>
+          <div className="relative inline-block">
+            <Button
+              onClick={() => setCvOpen(o => !o)}
+              variant="outline"
+              size="lg"
+              className="bg-transparent border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-500/50 px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105 flex items-center"
+            >
+              <Download className="mr-2 w-4 h-4 md:w-5 md:h-5" />
+              Télécharger CV
+              <ChevronDown className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+            </Button>
+            {cvOpen && (
+              <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded shadow-lg z-10 border border-emerald-100">
+                <a
+                  href="/Seydina%20Thioub%20Diagne%20.pdf"
+                  download
+                  className="block px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900 cursor-pointer"
+                  onClick={() => {
+                    setCvOpen(false);
+                    setConfetti(true);
+                    setTimeout(() => setConfetti(false), 2000);
+                  }}
+                >
+                  Français
+                </a>
+                <a
+                  href="/Seydina%20Thioub%20Diagne.en.pdf"
+                  download
+                  className="block px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900 cursor-pointer"
+                  onClick={() => {
+                    setCvOpen(false);
+                    setConfetti(true);
+                    setTimeout(() => setConfetti(false), 2000);
+                  }}
+                >
+                  Anglais
+                </a>
+              </div>
+            )}
+            <ConfettiBurst run={confetti} />
+          </div>
         </div>
 
         {/* Quick Stats */}
