@@ -157,6 +157,8 @@ export default function TaskManager() {
   const [showCalendar, setShowCalendar] = useState(false)
   const [newTask, setNewTask] = useState<{ title: string; description: string; priority: string; tags: string[]; dueDate: string; assignedTo: string }>({ title: "", description: "", priority: "low", tags: [], dueDate: "", assignedTo: users[0] })
   const [editTask, setEditTask] = useState<Task | null>(null)
+  // Pour la section médecins rétractable sur mobile
+  const [showDoctors, setShowDoctors] = useState(false)
 
   // Drag & drop
   const moveTask = (id: string, status: Task["status"]) => {
@@ -266,26 +268,56 @@ export default function TaskManager() {
   // Kanban UI
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="w-full max-w-5xl mx-auto p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 relative">
-        <div className="flex justify-between items-center mb-6">
+  <div className="w-full max-w-5xl mx-auto p-2 sm:p-4 md:p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 relative">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div className="flex flex-col gap-2 w-full sm:w-auto">
           <h2 className="text-2xl font-bold text-emerald-500">Système de gestion de tâches</h2>
-          <div className="flex gap-2">
-            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-              <Button variant="outline" onClick={() => setShowAnalytics(!showAnalytics)}><BarChart2 className="w-4 h-4 mr-1" /> Analytics</Button>
-              <Button variant="outline" onClick={reset}><RefreshCcw className="w-4 h-4 mr-1" /> Reset</Button>
-              <Button variant="outline" onClick={() => setShowHistory(!showHistory)}>Historique</Button>
-              <Button variant="outline" onClick={() => setShowCalendar(!showCalendar)}>Calendrier</Button>
-              <Button variant="outline" onClick={exportTasks}>Export</Button>
-              <Button variant="outline" onClick={importTasks}>Import</Button>
+          {/* Section médecins rétractable sur mobile */}
+          <div className="block sm:hidden mt-2">
+            <Button variant="outline" size="sm" onClick={() => setShowDoctors(v => !v)}>
+              {showDoctors ? "Masquer les médecins" : "Afficher les médecins"}
+            </Button>
+            <div
+              className={`mt-2 overflow-hidden transition-all duration-500 ${showDoctors ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}
+              style={{ pointerEvents: showDoctors ? 'auto' : 'none' }}
+            >
+              <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded shadow">
+                <div className="font-bold mb-1 text-emerald-500">Médecins</div>
+                <ul className="text-xs text-gray-700 dark:text-gray-300">
+                  {users.slice(0,3).map((doc, i) => (
+                    <li key={i} className="mb-1">{doc}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
+          {/* Section médecins toujours visible sur desktop */}
+          <div className="hidden sm:block mt-2">
+            <div className="font-bold mb-1 text-emerald-500">Médecins</div>
+            <ul className="text-xs text-gray-700 dark:text-gray-300">
+              {users.slice(0,3).map((doc, i) => (
+                <li key={i} className="mb-1">{doc}</li>
+              ))}
+            </ul>
+          </div>
         </div>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap w-full sm:w-auto">
+            <Button variant="outline" onClick={() => setShowAnalytics(!showAnalytics)}><BarChart2 className="w-4 h-4 mr-1" /> Analytics</Button>
+            <Button variant="outline" onClick={reset}><RefreshCcw className="w-4 h-4 mr-1" /> Reset</Button>
+            <Button variant="outline" onClick={() => setShowHistory(!showHistory)}>Historique</Button>
+            <Button variant="outline" onClick={() => setShowCalendar(!showCalendar)}>Calendrier</Button>
+            <Button variant="outline" onClick={exportTasks}>Export</Button>
+            <Button variant="outline" onClick={importTasks}>Import</Button>
+          </div>
+        </div>
+      </div>
         {/* Barre de recherche */}
-        <div className="mb-4 flex gap-2">
+        <div className="mb-4 flex flex-col sm:flex-row gap-2">
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher une tâche..." className="px-4 py-2 rounded border w-full" />
         </div>
         {/* Formulaire création tâche */}
-        <form className="mb-6 flex flex-wrap gap-2 items-center" onSubmit={e => {e.preventDefault(); addTask();}}>
+  <form className="mb-6 flex flex-col sm:flex-row flex-wrap gap-2 items-center" onSubmit={e => {e.preventDefault(); addTask();}}>
           <input type="text" value={newTask.title} onChange={e => setNewTask(t => ({ ...t, title: e.target.value }))} placeholder="Titre" className="px-2 py-1 rounded border" required />
           <input type="text" value={newTask.description} onChange={e => setNewTask(t => ({ ...t, description: e.target.value }))} placeholder="Description" className="px-2 py-1 rounded border" />
           <select value={newTask.priority} onChange={e => setNewTask(t => ({ ...t, priority: e.target.value as any }))} className="px-2 py-1 rounded border">
@@ -304,7 +336,7 @@ export default function TaskManager() {
         </form>
         {/* Edition tâche */}
         {editTask && (
-          <form className="mb-6 flex flex-wrap gap-2 items-center bg-slate-100 dark:bg-slate-800 p-4 rounded" onSubmit={e => {e.preventDefault(); updateTask(editTask);}}>
+          <form className="mb-6 flex flex-col sm:flex-row flex-wrap gap-2 items-center bg-slate-100 dark:bg-slate-800 p-2 sm:p-4 rounded" onSubmit={e => {e.preventDefault(); updateTask(editTask);}}>
             <input type="text" value={editTask.title} onChange={e => setEditTask(t => t ? { ...t, title: e.target.value } : t)} placeholder="Titre" className="px-2 py-1 rounded border" required />
             <input type="text" value={editTask.description} onChange={e => setEditTask(t => t ? { ...t, description: e.target.value } : t)} placeholder="Description" className="px-2 py-1 rounded border" />
             <select value={editTask.priority} onChange={e => setEditTask(t => t ? { ...t, priority: e.target.value as any } : t)} className="px-2 py-1 rounded border">
@@ -324,7 +356,7 @@ export default function TaskManager() {
           </form>
         )}
         {/* Kanban columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <KanbanColumn status="todo" tasks={tasks.filter(t => t.status === "todo" && filterTask(t))} moveTask={moveTask} onDrop={handleDrop} onEdit={setEditTask} onDelete={deleteTask} />
           <KanbanColumn status="inprogress" tasks={tasks.filter(t => t.status === "inprogress" && filterTask(t))} moveTask={moveTask} onDrop={handleDrop} onEdit={setEditTask} onDelete={deleteTask} />
           <KanbanColumn status="done" tasks={tasks.filter(t => t.status === "done" && filterTask(t))} moveTask={moveTask} onDrop={handleDrop} onEdit={setEditTask} onDelete={deleteTask} />
@@ -383,7 +415,7 @@ function KanbanColumn({ status, tasks, moveTask, onDrop, onEdit, onDelete }: { s
   };
 
   return (
-    <div ref={setDropRef} className="flex-1 bg-slate-100 dark:bg-slate-900 rounded-lg p-4 min-h-[200px] mx-2">
+  <div ref={setDropRef} className="flex-1 bg-slate-100 dark:bg-slate-900 rounded-lg p-2 sm:p-4 min-h-[200px] mx-0 sm:mx-2 overflow-x-auto">
       <div className="font-bold mb-2 text-emerald-500 text-center">
         {status === "todo" ? "À faire" : status === "inprogress" ? "En cours" : "Terminé"}
       </div>
