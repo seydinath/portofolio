@@ -30,15 +30,16 @@ const projects = [
   },
   {
     id: 3,
-    title: "Application E-commerce Full Stack",
+    title: "Système de Rendez-vous Médicaux & File d'Attente",
     description:
-      "Plateforme e-commerce complète avec gestion des produits, panier, paiements Stripe, authentification JWT et panel d'administration. Architecture microservices.",
-    technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Stripe", "JWT"],
-    githubUrl: "https://github.com/seydinath/ecommerce-fullstack",
-    liveUrl: "https://ecommerce-demo-sth.vercel.app",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=E-commerce+Platform",
+      "Application de gestion des rendez-vous médicaux avec calendrier interactif, file d'attente en temps réel, assignation des patients aux médecins et notifications. Interface moderne et ergonomique pour cliniques et hôpitaux.",
+    technologies: ["React", "Next.js", "TypeScript", "TailwindCSS", "Socket.io", "Calendar API"],
+    githubUrl: "https://github.com/seydinath/medical-appointment-system",
+    liveUrl: "/medical-appointment-demo",
+    imageUrl: "/placeholder.svg?height=300&width=500&text=Medical+Appointment+System",
+    component: "MedicalAppointmentDemo",
     difficulty: "Avancé",
-    duration: "6 semaines",
+    duration: "5 semaines",
   },
   {
     id: 4,

@@ -71,12 +71,41 @@ interface Task {
   assignedTo?: string
 }
 
-const users = ["Alice", "Bob", "Charlie", "Vous"];
-const tagsList = ["UI", "Backend", "Urgent", "Design", "Bug"];
+const users = [
+  "Dr. A. Diallo (Cardiologue)",
+  "Dr. S. Ndiaye (Généraliste)",
+  "Dr. M. Sow (Pédiatre)",
+  "Alice",
+  "Bob",
+  "Charlie",
+  "Vous"
+];
+const tagsList = ["UI", "Backend", "Urgent", "Design", "Bug", "Consultation", "Urgence", "Suivi", "Bilan"];
 const initialTasks: Task[] = [
   { id: "1", title: "Créer la maquette", description: "Design Notion-like", status: "todo", createdAt: Date.now(), priority: "medium", tags: ["UI"], assignedTo: "Alice" },
   { id: "2", title: "Implémenter drag & drop", description: "Utiliser react-dnd", status: "inprogress", createdAt: Date.now(), priority: "high", tags: ["Backend", "Urgent"], assignedTo: "Bob", dueDate: "2025-08-25" },
   { id: "3", title: "Ajouter analytics", description: "Statistiques avancées", status: "done", createdAt: Date.now(), priority: "low", tags: ["Design"], assignedTo: "Charlie" },
+  // Patients fictifs
+  { id: "4", title: "Consultation Fatou Diop", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "high", tags: ["Consultation"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-08-26" },
+  { id: "5", title: "Suivi Moussa Ba", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "medium", tags: ["Suivi"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-08-27" },
+  { id: "6", title: "Urgence Awa Sy", description: "Pédiatrie", status: "done", createdAt: Date.now(), priority: "high", tags: ["Urgence"], assignedTo: "Dr. M. Sow (Pédiatre)", dueDate: "2025-08-28" },
+  { id: "7", title: "Consultation Cheikh Ndiaye", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "medium", tags: ["Consultation"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-08-29" },
+  { id: "8", title: "Bilan Mariama Sarr", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "low", tags: ["Bilan"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-08-30" },
+  { id: "9", title: "Consultation Abdoulaye Sow", description: "Pédiatrie", status: "done", createdAt: Date.now(), priority: "medium", tags: ["Consultation"], assignedTo: "Dr. M. Sow (Pédiatre)", dueDate: "2025-08-31" },
+  { id: "10", title: "Urgence Seynabou Kane", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "high", tags: ["Urgence"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-09-01" },
+  { id: "11", title: "Suivi Ibrahima Fall", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "medium", tags: ["Suivi"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-09-02" },
+  { id: "12", title: "Consultation Khadija Mbaye", description: "Pédiatrie", status: "done", createdAt: Date.now(), priority: "low", tags: ["Consultation"], assignedTo: "Dr. M. Sow (Pédiatre)", dueDate: "2025-09-03" },
+  { id: "13", title: "Bilan Mamadou Diouf", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "medium", tags: ["Bilan"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-09-04" },
+  { id: "14", title: "Consultation Aminata Diallo", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "high", tags: ["Consultation"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-09-05" },
+  { id: "15", title: "Urgence Ousmane Sow", description: "Pédiatrie", status: "done", createdAt: Date.now(), priority: "medium", tags: ["Urgence"], assignedTo: "Dr. M. Sow (Pédiatre)", dueDate: "2025-09-06" },
+  { id: "16", title: "Consultation Fanta Ba", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "low", tags: ["Consultation"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-09-07" },
+  { id: "17", title: "Bilan Moussa Ndiaye", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "medium", tags: ["Bilan"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-09-08" },
+  { id: "18", title: "Consultation Mariama Sow", description: "Pédiatrie", status: "done", createdAt: Date.now(), priority: "high", tags: ["Consultation"], assignedTo: "Dr. M. Sow (Pédiatre)", dueDate: "2025-09-09" },
+  { id: "19", title: "Urgence Abdoulaye Kane", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "medium", tags: ["Urgence"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-09-10" },
+  { id: "20", title: "Suivi Seynabou Fall", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "low", tags: ["Suivi"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-09-11" },
+  { id: "21", title: "Consultation Ibrahima Mbaye", description: "Pédiatrie", status: "done", createdAt: Date.now(), priority: "medium", tags: ["Consultation"], assignedTo: "Dr. M. Sow (Pédiatre)", dueDate: "2025-09-12" },
+  { id: "22", title: "Bilan Khadija Diouf", description: "Cardiologie", status: "todo", createdAt: Date.now(), priority: "high", tags: ["Bilan"], assignedTo: "Dr. A. Diallo (Cardiologue)", dueDate: "2025-09-13" },
+  { id: "23", title: "Consultation Mamadou Sow", description: "Généraliste", status: "inprogress", createdAt: Date.now(), priority: "medium", tags: ["Consultation"], assignedTo: "Dr. S. Ndiaye (Généraliste)", dueDate: "2025-09-14" },
 ]
 
 function TaskCard({ task, moveTask, onEdit, onDelete }: { task: Task; moveTask: (id: string, status: Task["status"]) => void; onEdit: (task: Task) => void; onDelete: (id: string) => void }) {

@@ -63,11 +63,111 @@ export function AboutSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-8">
             {/* Text Content - Left Side */}
             <div className="space-y-6">
+
               <p className="text-xl text-gray-400 leading-relaxed">
-                <span className="text-emerald-400 font-semibold">Software Engineer</span> et{" "}
-                <span className="text-emerald-400 font-semibold">CCNA certifié</span>, je navigue avec aisance entre le
-                monde des applications web modernes et les fondations réseau.
+                <span className="text-emerald-400 font-semibold">Software Engineer</span> et <span className="text-emerald-400 font-semibold">CCNA certifié</span>, je navigue avec aisance entre le monde des applications web modernes et les fondations réseau.
               </p>
+
+              <div className="flex flex-wrap gap-4">
+                {/* Bulle Technicien IT Intelcia */}
+                <div className="relative inline-block group">
+                  <button
+                    className="bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-emerald-700 transition-colors duration-300 font-semibold flex items-center gap-2 focus:outline-none"
+                    tabIndex={0}
+                  >
+                    <Network className="w-5 h-5" />
+                    Technicien IT
+                    <span className="ml-2 bg-black/30 text-emerald-300 px-2 py-1 rounded text-xs">4 ans</span>
+                    <span className="ml-2 bg-emerald-900/40 text-emerald-200 px-2 py-1 rounded text-xs">Intelcia</span>
+                  </button>
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-4 z-20 w-[340px] bg-black/90 border border-emerald-500/30 rounded-xl shadow-2xl p-6 text-left opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 scale-95 group-hover:scale-100"
+                    style={{ top: '100%' }}
+                  >
+                    <h3 className="text-lg font-bold text-emerald-400 mb-2">Technicien IT — 4 ans chez Intelcia</h3>
+                    <p className="text-gray-300 text-base leading-relaxed mb-2">
+                      Gestion et maintenance d’un parc de <span className="font-semibold text-emerald-400">700 ordinateurs</span> et périphériques.
+                    </p>
+                    <ul className="list-disc list-inside text-gray-400 text-base space-y-1 mb-2">
+                      <li>Support technique et assistance utilisateurs (dépannage, installation, configuration, formation)</li>
+                      <li>Gestion proactive des incidents, résolution rapide des pannes matérielles et logicielles</li>
+                      <li>Maintenance préventive et curative, optimisation des performances et de la sécurité</li>
+                      <li>Déploiement d’images systèmes, gestion des mises à jour et des licences</li>
+                      <li>Suivi et inventaire du parc, documentation technique et reporting</li>
+                      <li>Collaboration avec les équipes réseau et sécurité pour garantir la fiabilité de l’infrastructure</li>
+                      <li>Formation et accompagnement des utilisateurs pour une meilleure autonomie numérique</li>
+                    </ul>
+                    <p className="text-gray-300 text-base leading-relaxed">
+                      <span className="italic text-emerald-400">“Un vrai chef d’orchestre du support, entre réactivité, pédagogie et organisation !”</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bulle Java Sen GeoSystems */}
+                {/* Bulle Freelance New Kind of Development */}
+                <div className="relative inline-block group">
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300 font-semibold flex items-center gap-2 focus:outline-none"
+                    tabIndex={0}
+                  >
+                    <Palette className="w-5 h-5" />
+                    Développeur Freelance
+                    <span className="ml-2 bg-black/30 text-blue-300 px-2 py-1 rounded text-xs">2 ans</span>
+                    <span className="ml-2 bg-blue-900/40 text-blue-200 px-2 py-1 rounded text-xs">New Kind of Development</span>
+                  </button>
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-4 z-20 w-[340px] bg-black/90 border border-blue-500/30 rounded-xl shadow-2xl p-6 text-left opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 scale-95 group-hover:scale-100"
+                    style={{ top: '100%' }}
+                  >
+                    <h3 className="text-lg font-bold text-blue-400 mb-2">Développeur Freelance — 2 ans chez New Kind of Development</h3>
+                    <p className="text-gray-300 text-base leading-relaxed mb-2">
+                      Développement web sur <span className="font-semibold text-blue-400">PHP, WordPress, CSS</span> et gestion complète de projets digitaux.
+                    </p>
+                    <ul className="list-disc list-inside text-gray-400 text-base space-y-1 mb-2">
+                      <li>Définition, gestion et suivi du planning, répartition des tâches</li>
+                      <li>Gestion budgétaire : création et suivi des budgets, optimisation des coûts</li>
+                      <li>Négociation et gestion des relations avec fournisseurs et prestataires externes</li>
+                      <li>Gestion d’équipe et pilotage de projet en appliquant la méthode Agile</li>
+                      <li>Développement et intégration sur WordPress, PHP, CSS</li>
+                      <li>Veille à la rentabilité, la qualité et la satisfaction client</li>
+                    </ul>
+                    <p className="text-gray-300 text-base leading-relaxed">
+                      <span className="italic text-blue-400">“Freelance, chef d’orchestre digital et stratège du web !”</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="relative inline-block group">
+                  <button
+                    className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-colors duration-300 font-semibold flex items-center gap-2 focus:outline-none"
+                    tabIndex={0}
+                  >
+                    <Code2 className="w-5 h-5" />
+                    Développeur Java
+                    <span className="ml-2 bg-black/30 text-green-300 px-2 py-1 rounded text-xs">1 an</span>
+                    <span className="ml-2 bg-green-900/40 text-green-200 px-2 py-1 rounded text-xs">Sen GeoSystems</span>
+                  </button>
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-4 z-20 w-[340px] bg-black/90 border border-green-500/30 rounded-xl shadow-2xl p-6 text-left opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 scale-95 group-hover:scale-100"
+                    style={{ top: '100%' }}
+                  >
+                    <h3 className="text-lg font-bold text-green-400 mb-2">Développeur Java — 1 an chez Sen GeoSystems</h3>
+                    <p className="text-gray-300 text-base leading-relaxed mb-2">
+                      Participation à la mise en place d’une application de <span className="font-semibold text-green-400">surveillance et géolocalisation</span>.
+                    </p>
+                    <ul className="list-disc list-inside text-gray-400 text-base space-y-1 mb-2">
+                      <li>Développement backend et frontend en Java (Spring, JavaFX)</li>
+                      <li>Intégration de modules de cartographie et tracking GPS</li>
+                      <li>Gestion des bases de données (PostgreSQL, MySQL)</li>
+                      <li>Implémentation d’alertes et de rapports automatisés</li>
+                      <li>Collaboration avec l’équipe projet pour le recueil des besoins et la validation fonctionnelle</li>
+                      <li>Optimisation des performances et de la sécurité de l’application</li>
+                    </ul>
+                    <p className="text-gray-300 text-base leading-relaxed">
+                      <span className="italic text-green-400">“Un projet innovant, entre code, cartographie et esprit d’équipe !”</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               {/* Philosophy Quote */}
               <blockquote className="text-lg md:text-xl font-light text-gray-300 italic leading-relaxed border-l-4 border-emerald-500/50 pl-6 py-4">
