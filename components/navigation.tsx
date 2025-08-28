@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Home, FolderOpen, Mail, User } from "lucide-react"
+import { Menu, X, Home, FolderOpen, Mail, User, BookOpen } from "lucide-react"
 
 interface NavigationProps {
   activeSection?: string
@@ -22,6 +22,11 @@ export function Navigation({ activeSection = "home" }: NavigationProps) {
   ]
 
   const handleNavigation = (sectionId: string) => {
+    if (sectionId === "catalogue") {
+      router.push("/catalogue")
+      setIsOpen(false)
+      return
+    }
     // Si on est sur la page principale, faire un scroll
     if (pathname === "/") {
       const element = document.getElementById(sectionId)

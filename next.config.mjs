@@ -10,5 +10,11 @@ const nextConfig = {
     unoptimized: true,
   },
 }
+// Favicon setup
+export const metadata = {
+  icons: {
+    icon: '/favicon.ico',
+  },
+};
 
 export default nextConfig

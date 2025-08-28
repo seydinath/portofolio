@@ -1,8 +1,27 @@
-"use client"
+"use client";
+import React, { useState } from "react";
+import Catalogue from "./catalogue";
+import { ProjectCard } from "@/components/project-card";
 
-import { ProjectCard } from "@/components/project-card"
 
-const projects = [
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  technologies: string[];
+  githubUrl: string;
+  liveUrl: string;
+  imageUrl: string;
+  component?: string;
+  difficulty?: string;
+  duration?: string;
+}
+
+interface ProjectsCarouselProps {
+  projects: Project[];
+}
+
+const projects: Project[] = [
   {
     id: 1,
     title: "Formulaire Carte de Crédit Animé",
@@ -11,7 +30,7 @@ const projects = [
     technologies: ["React", "TypeScript", "CSS 3D", "Animation", "Form Validation"],
     githubUrl: "https://github.com/seydinath/credit-card-form-3d",
     liveUrl: "/credit-card-demo",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=Credit+Card+Form",
+    imageUrl: "/images/credit-card-illustration.png",
     component: "CreditCardForm",
     difficulty: "Intermédiaire",
     duration: "2 semaines",
@@ -23,8 +42,8 @@ const projects = [
       "Système de surveillance réseau en temps réel avec alertes SNMP, visualisation des topologies et métriques de performance. Interface moderne pour administrateurs réseau.",
     technologies: ["React", "D3.js", "SNMP", "WebSocket", "Network Analytics", "Node.js"],
     githubUrl: "https://github.com/seydinath/network-monitoring-dashboard",
-  liveUrl: "/dashboard-demo",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=Network+Dashboard",
+    liveUrl: "/dashboard-demo",
+    imageUrl: "/images/network-dashboard-illustration.png",
     difficulty: "Avancé",
     duration: "1 mois",
   },
@@ -36,7 +55,7 @@ const projects = [
     technologies: ["React", "Next.js", "TypeScript", "TailwindCSS", "Socket.io", "Calendar API"],
     githubUrl: "https://github.com/seydinath/medical-appointment-system",
     liveUrl: "/medical-appointment-demo",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=Medical+Appointment+System",
+    imageUrl: "/images/medical-appointment-illustration.png",
     component: "MedicalAppointmentDemo",
     difficulty: "Avancé",
     duration: "5 semaines",
@@ -49,7 +68,7 @@ const projects = [
     technologies: ["Python", "Flask", "Cisco IOS", "VLAN", "Network Automation", "React"],
     githubUrl: "https://github.com/seydinath/vlan-configurator",
     liveUrl: "/vlan-configurator-demo",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=VLAN+Configurator",
+    imageUrl: "/images/vlan-configurator-illustration.png",
     difficulty: "Avancé",
     duration: "3 semaines",
   },
@@ -61,7 +80,7 @@ const projects = [
     technologies: ["React", "TypeScript", "CSS Animations", "Framer Motion", "Hooks"],
     githubUrl: "https://github.com/seydinath/typing-animation-react",
     liveUrl: "/typing-animation",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=Typing+Animation",
+    imageUrl: "/images/typing-animation-illustration.png",
     component: "TypingAnimation",
     difficulty: "Débutant",
     duration: "1 semaine",
@@ -74,17 +93,17 @@ const projects = [
     technologies: ["React", "Node.js", "Socket.io", "MongoDB", "PWA", "Push Notifications"],
     githubUrl: "https://github.com/seydinath/task-management-system",
     liveUrl: "/task-manager-demo",
-    imageUrl: "/placeholder.svg?height=300&width=500&text=Task+Manager",
+    imageUrl: "/images/task-manager-illustration.png",
     difficulty: "Intermédiaire",
     duration: "4 semaines",
   },
-]
+];
 
 export function ProjectsSection() {
+  const [showCatalogue, setShowCatalogue] = useState(false);
   return (
     <section className="py-20 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-emerald-400 to-green-300 bg-clip-text text-transparent">
             Mes Réalisations
@@ -93,9 +112,32 @@ export function ProjectsSection() {
             Découvrez une sélection de mes projets, alliant innovation technique et design moderne
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-400 mx-auto mt-6 rounded-full shadow-lg shadow-emerald-500/50" />
+          <button
+            className="mt-8 px-6 py-3 bg-gradient-to-r from-blue-500 to-emerald-400 text-white rounded-xl font-bold shadow hover:scale-105 transition-all duration-300"
+            onClick={() => setShowCatalogue(true)}
+          >
+            Découvrir le Catalogue de Flyers
+          </button>
         </div>
-
-        {/* Filter Tags */}
+        {showCatalogue && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+            <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 text-center animate-fadeIn">
+              <button
+                className="absolute top-4 right-4 text-emerald-600 bg-emerald-100 rounded-full p-2 hover:bg-emerald-200 transition"
+                onClick={() => setShowCatalogue(false)}
+                aria-label="Fermer le message"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div className="pt-8 pb-4">
+                <h3 className="text-2xl font-bold text-emerald-500 mb-4">Espace en développement</h3>
+                <p className="text-gray-500 text-lg">Le catalogue de flyers sera bientôt disponible.<br/>Restez connecté pour découvrir cette nouveauté !</p>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {["Tous", "React", "Network", "Full Stack", "Animation"].map((filter) => (
             <button
@@ -106,15 +148,7 @@ export function ProjectsSection() {
             </button>
           ))}
         </div>
-
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </div>
-
-        {/* Projects Stats */}
+        <ProjectsCarousel projects={projects} />
         <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
           <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300">
             <div className="text-3xl font-bold text-emerald-400 mb-2">{projects.length}</div>
@@ -135,8 +169,6 @@ export function ProjectsSection() {
             <div className="text-gray-400">Open Source</div>
           </div>
         </div>
-
-        {/* GitHub CTA */}
         <div className="mt-12 text-center">
           <p className="text-gray-400 mb-4">Tous mes projets sont disponibles sur GitHub</p>
           <a
@@ -153,5 +185,97 @@ export function ProjectsSection() {
         </div>
       </div>
     </section>
-  )
+  );
+}
+
+
+
+function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
+  const [current, setCurrent] = useState(0);
+  const visibleCount = 3;
+  const maxIndex = Math.max(0, projects.length - visibleCount);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Smart auto-play: pauses on hover/focus, resumes otherwise
+  React.useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev < maxIndex ? prev + 1 : 0));
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [isPaused, maxIndex]);
+
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      const cardWidth = scrollRef.current.offsetWidth / visibleCount;
+      scrollRef.current.scrollTo({
+        left: current * cardWidth,
+        behavior: "smooth",
+      });
+    }
+  }, [current, visibleCount]);
+
+  const handlePrev = () => setCurrent((prev) => Math.max(0, prev - 1));
+  const handleNext = () => setCurrent((prev) => Math.min(maxIndex, prev + 1));
+
+
+  // 3D effect: cards rotate slightly based on position, height 520px, spaced out
+  const getCardStyle = (idx: number) => {
+    const offset = idx - current;
+    const isActive = idx >= current && idx < current + visibleCount;
+    return {
+      flex: `0 0 ${100 / visibleCount}%`,
+      height: "600px", // Hauteur idéale pour supprimer la scroll bar verticale
+      margin: "0 1.5rem",
+      transform:
+        isActive
+          ? `scale(1.05) perspective(900px) rotateY(${offset * 10}deg)`
+          : `scale(0.93) perspective(900px) rotateY(${offset * 20}deg)`,
+      opacity: isActive ? 1 : 0.3,
+      transition: "transform 0.7s cubic-bezier(.23,1,.32,1), opacity 0.5s",
+      zIndex: isActive ? 2 : 1,
+      overflow: "hidden",
+      boxShadow: isActive ? "0 8px 32px 0 rgba(0,0,0,0.12)" : "none",
+      background: "none",
+    };
+  };
+
+  return (
+    <div
+      className="relative w-full flex flex-col items-center"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
+    >
+  <div className="flex items-center justify-center w-full" style={{ cursor: "pointer" }}>
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-hidden overflow-y-hidden snap-x snap-mandatory w-full px-2"
+          style={{ scrollBehavior: "smooth", overflowY: "hidden" }}
+        >
+          {projects.map((project, idx) => (
+            <div
+              key={project.id}
+              className="min-w-[300px] md:min-w-[350px] lg:min-w-[400px] snap-center transition-transform duration-500 ease-in-out"
+              style={getCardStyle(idx)}
+            >
+              <ProjectCard project={project} index={idx} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-4 flex justify-center gap-2">
+        {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${i === current ? "bg-emerald-500 scale-125" : "bg-emerald-300/30"}`}
+            aria-label={`Aller à la page ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

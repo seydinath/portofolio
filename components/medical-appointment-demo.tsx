@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 // import a calendar library here if needed
-import { UserPlus, Clock, CheckCircle } from "lucide-react";
 import clsx from "clsx";
 
 // Dummy data for doctors and patients
