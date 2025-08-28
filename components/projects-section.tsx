@@ -1,25 +1,3 @@
-  // Swipe support for mobile
-  const touchStartX = React.useRef<number | null>(null);
-  const touchEndX = React.useRef<number | null>(null);
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = () => {
-    if (touchStartX.current !== null && touchEndX.current !== null) {
-      const distance = touchStartX.current - touchEndX.current;
-      if (distance > 50) {
-        handleNext(); // swipe left
-      } else if (distance < -50) {
-        handlePrev(); // swipe right
-      }
-    }
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
 "use client";
 import React, { useState } from "react";
 import Catalogue from "./catalogue";
@@ -261,6 +239,35 @@ function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
       boxShadow: isActive ? "0 8px 32px 0 rgba(0,0,0,0.12)" : "none",
       background: "none",
     };
+  };
+
+  // Touch event handlers for swipe navigation
+  const touchStartX = React.useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    // Prevent scrolling the page while swiping
+    if (touchStartX.current !== null) {
+      e.preventDefault();
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current !== null) {
+      const touchEndX = e.changedTouches[0].clientX;
+      const diff = touchEndX - touchStartX.current;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          handlePrev();
+        } else {
+          handleNext();
+        }
+      }
+      touchStartX.current = null;
+    }
   };
 
   return (

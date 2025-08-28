@@ -76,57 +76,13 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             isHovered ? "scale-110" : "scale-100"
           }`}
         />
-
-        return (
-          <Card
-            className={`relative group h-full shadow-xl border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 overflow-hidden ${isHovered ? "scale-[1.03]" : ""}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <CardHeader className="pb-0">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge className={getDifficultyColor(project.difficulty)}>{project.difficulty || "Niveau ?"}</Badge>
-                <span className="text-xs text-gray-400">{project.duration}</span>
-              </div>
-              <h3 className="text-xl font-bold text-emerald-500 group-hover:text-emerald-600 transition">{project.title}</h3>
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div className="mb-4 rounded-xl overflow-hidden">
-                {getPlaceholder()}
-              </div>
-              <p className="text-gray-500 text-sm mb-2 min-h-[48px]">{project.description}</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {project.technologies.map((tech) => (
-                  <Badge key={tech} className="bg-black/10 text-emerald-400 border border-emerald-500/20 text-xs font-medium">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between items-center pt-2">
-              <div className="flex gap-2">
-                <Button variant="ghost" size="icon" asChild>
-                  <a href={project.githubUrl} target="_blank" rel="noopener" aria-label="GitHub">
-                    <Github className="w-5 h-5 text-gray-400 hover:text-emerald-500 transition" />
-                  </a>
-                </Button>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href={project.liveUrl} target="_blank" rel="noopener" aria-label="Demo">
-                    <ExternalLink className="w-5 h-5 text-gray-400 hover:text-emerald-500 transition" />
-                  </a>
-                </Button>
-              </div>
-              <span className="text-xs text-gray-400 flex items-center gap-1"><Clock className="w-4 h-4" />{project.duration}</span>
-            </CardFooter>
-          </Card>
-        )
-          {project.duration && (
-            <div className="flex items-center space-x-1 text-gray-400 text-xs ml-2">
-              <Clock className="w-3 h-3" />
-              <span>{project.duration}</span>
-            </div>
-          )}
+      </div>
+      <CardHeader className="pb-0">
+        <div className="flex items-center gap-2 mb-2">
+          <Badge className={getDifficultyColor(project.difficulty)}>{project.difficulty || "Niveau ?"}</Badge>
+          <span className="text-xs text-gray-400">{project.duration}</span>
         </div>
+        <h3 className="text-xl font-bold text-emerald-500 group-hover:text-emerald-600 transition">{project.title}</h3>
       </CardHeader>
 
       <CardContent className="pb-4">
