@@ -1,3 +1,25 @@
+  // Swipe support for mobile
+  const touchStartX = React.useRef<number | null>(null);
+  const touchEndX = React.useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const distance = touchStartX.current - touchEndX.current;
+      if (distance > 50) {
+        handleNext(); // swipe left
+      } else if (distance < -50) {
+        handlePrev(); // swipe right
+      }
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 "use client";
 import React, { useState } from "react";
 import Catalogue from "./catalogue";
@@ -254,6 +276,9 @@ function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
           ref={scrollRef}
           className="flex overflow-x-hidden overflow-y-hidden snap-x snap-mandatory w-full px-2"
           style={{ scrollBehavior: "smooth", overflowY: "hidden" }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {projects.map((project, idx) => (
             <div

@@ -28,6 +28,23 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
 
+  // Generate a dynamic placeholder (gradient + initials)
+  const getPlaceholder = () => {
+    const colors = ["from-emerald-400", "from-blue-400", "from-purple-400", "from-pink-400", "from-yellow-400"];
+    const color = colors[index % colors.length];
+    const initials = project.title
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+    return (
+      <div className={`w-full h-40 flex items-center justify-center rounded-xl bg-gradient-to-br ${color} to-gray-900 text-white text-4xl font-bold`}>
+        {initials}
+      </div>
+    );
+  };
+
   const getDifficultyColor = (difficulty?: string) => {
     switch (difficulty) {
       case "Débutant":
@@ -60,56 +77,49 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           }`}
         />
 
-        {/* Overlay */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-60"
-          }`}
-        />
-
-        {/* Difficulty Badge */}
-        {project.difficulty && (
-          <div className="absolute top-4 left-4">
-            <Badge variant="outline" className={`${getDifficultyColor(project.difficulty)} backdrop-blur-sm`}>
-              {project.difficulty}
-            </Badge>
-          </div>
-        )}
-
-        {/* Quick Actions */}
-        <div
-          className={`absolute top-4 right-4 flex space-x-2 transition-all duration-300 ${
-            isHovered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-          }`}
-        >
-          <Button
-            size="icon"
-            variant="outline"
-            className="bg-black/50 backdrop-blur-sm border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 w-8 h-8"
-            asChild
+        return (
+          <Card
+            className={`relative group h-full shadow-xl border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 overflow-hidden ${isHovered ? "scale-[1.03]" : ""}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-              <Github className="w-4 h-4" />
-            </a>
-          </Button>
-          <Button
-            size="icon"
-            variant="outline"
-            className="bg-black/50 backdrop-blur-sm border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 w-8 h-8"
-            asChild
-          >
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-              <Eye className="w-4 h-4" />
-            </a>
-          </Button>
-        </div>
-      </div>
-
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <h3 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 flex-1">
-            {project.title}
-          </h3>
+            <CardHeader className="pb-0">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge className={getDifficultyColor(project.difficulty)}>{project.difficulty || "Niveau ?"}</Badge>
+                <span className="text-xs text-gray-400">{project.duration}</span>
+              </div>
+              <h3 className="text-xl font-bold text-emerald-500 group-hover:text-emerald-600 transition">{project.title}</h3>
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="mb-4 rounded-xl overflow-hidden">
+                {getPlaceholder()}
+              </div>
+              <p className="text-gray-500 text-sm mb-2 min-h-[48px]">{project.description}</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {project.technologies.map((tech) => (
+                  <Badge key={tech} className="bg-black/10 text-emerald-400 border border-emerald-500/20 text-xs font-medium">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-between items-center pt-2">
+              <div className="flex gap-2">
+                <Button variant="ghost" size="icon" asChild>
+                  <a href={project.githubUrl} target="_blank" rel="noopener" aria-label="GitHub">
+                    <Github className="w-5 h-5 text-gray-400 hover:text-emerald-500 transition" />
+                  </a>
+                </Button>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href={project.liveUrl} target="_blank" rel="noopener" aria-label="Demo">
+                    <ExternalLink className="w-5 h-5 text-gray-400 hover:text-emerald-500 transition" />
+                  </a>
+                </Button>
+              </div>
+              <span className="text-xs text-gray-400 flex items-center gap-1"><Clock className="w-4 h-4" />{project.duration}</span>
+            </CardFooter>
+          </Card>
+        )
           {project.duration && (
             <div className="flex items-center space-x-1 text-gray-400 text-xs ml-2">
               <Clock className="w-3 h-3" />
