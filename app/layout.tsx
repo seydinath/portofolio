@@ -18,23 +18,25 @@ function Footer() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-WH7E4SF2R9"
-        strategy="afterInteractive"
-      />
-      <Script id="gtag-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-WH7E4SF2R9');
-        `}
-      </Script>
-      <div>
+    <html lang="fr">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WH7E4SF2R9"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-WH7E4SF2R9');
+          `}
+        </Script>
+      </head>
+      <body>
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         <Footer />
-      </div>
-    </>
+      </body>
+    </html>
   );
 }
