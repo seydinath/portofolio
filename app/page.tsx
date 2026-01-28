@@ -7,6 +7,8 @@ import { HeroSection } from "@/components/hero-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { ContactSection } from "@/components/contact-section"
 import { AboutSection } from "@/components/about-section"
+import { Footer } from "@/components/footer"
+import { ScrollIndicator } from "@/components/scroll-indicator"
 import { LoadingScreen } from "@/components/loading-screen"
 // import { SimpleLoading } from "@/components/simple-loading" // Alternative simple
 
@@ -74,7 +76,8 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-900">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-black">
+      <ScrollIndicator />
       <Navigation activeSection={activeSection} />
 
       <main className="relative">
@@ -95,10 +98,12 @@ export default function Portfolio() {
         </section>
       </main>
 
-      {/* Background Effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-400/5 rounded-full blur-3xl animate-pulse delay-1000" />
+      <Footer />
+
+      {/* Background Effects - Subtle and Modern */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl" />
       </div>
     </div>
   )

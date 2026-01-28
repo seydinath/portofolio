@@ -32,12 +32,12 @@ export function HeroSection() {
       >
         {/* Main Title */}
         <div className="mb-8">
-          <h1 className="text-4xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white via-emerald-400 to-green-300 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white via-blue-300 to-emerald-300 bg-clip-text text-transparent">
             Seydina Th.Diagne
           </h1>
-          <h2 className="text-2xl md:text-5xl font-light text-gray-300 mb-4">Software Engineer</h2>
-          <h3 className="text-lg md:text-2xl font-light text-emerald-400 mb-2">Full Stack Premium</h3>
-          <p className="text-sm md:text-base text-gray-500">Basé à Dakar, Sénégal 🇸🇳</p>
+          <p className="text-xl md:text-3xl font-light text-gray-300 mb-2">Ingénieur Full Stack</p>
+          <p className="text-base md:text-lg text-gray-400 mb-4">Web • Réseau • DevOps</p>
+          <p className="text-sm md:text-base text-gray-500">📍 Dakar, Sénégal</p>
           <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-400 mx-auto mt-6 rounded-full shadow-lg shadow-emerald-500/50" />
         </div>
 
@@ -50,25 +50,25 @@ export function HeroSection() {
 
         {/* Availability Status */}
         <div className="mb-8">
-          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-2">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-            <span className="text-emerald-400 text-sm font-medium">Disponible pour missions freelance</span>
+          <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-2">
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+            <span className="text-blue-400 text-sm font-medium">Disponible pour missions</span>
           </div>
         </div>
 
         {/* Expertise Tags */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12 max-w-4xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-2 mb-12 max-w-4xl mx-auto">
           {[
-            "React & TypeScript",
-            "CCNA Certified",
-            "Network Security",
-            "OSPF & VLANs",
-            "Sass CSS",
-            "System Architecture",
+            "React",
+            "TypeScript",
+            "CCNA",
+            "Network",
+            "DevOps",
+            "AWS",
           ].map((skill) => (
             <span
               key={skill}
-              className="px-3 md:px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-xs md:text-sm font-medium backdrop-blur-sm hover:bg-emerald-500/20 transition-all duration-300"
+              className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-400/20 rounded-full text-emerald-300 text-xs font-medium hover:bg-emerald-500/15 transition-all duration-300"
             >
               {skill}
             </span>
@@ -76,7 +76,7 @@ export function HeroSection() {
         </div>
 
         {/* Social Links */}
-        <div className="flex justify-center space-x-4 md:space-x-6 mb-12">
+        <div className="flex justify-center space-x-4 mb-12">
           {[
             { icon: Github, href: "https://github.com/seydinath", label: "GitHub" },
             { icon: Linkedin, href: "https://www.linkedin.com/in/sthdiagne/", label: "LinkedIn" },
@@ -87,13 +87,10 @@ export function HeroSection() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-3 md:p-4 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/25"
+              className="group p-3 bg-black/30 backdrop-blur-sm border border-gray-500/20 rounded-lg hover:border-emerald-400/50 transition-all duration-300 hover:scale-110 hover:bg-emerald-500/10"
             >
-              <Icon className="w-5 h-5 md:w-6 md:h-6 text-gray-400 group-hover:text-emerald-400 transition-colors duration-300" />
+              <Icon className="w-5 h-5 text-gray-400 group-hover:text-emerald-300 transition-colors duration-300" />
               <span className="sr-only">{label}</span>
-
-              {/* Glow Effect */}
-              <div className="absolute inset-0 rounded-xl bg-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
           ))}
         </div>
@@ -103,10 +100,10 @@ export function HeroSection() {
           <Button
             onClick={scrollToProjects}
             size="lg"
-            className="group bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white border-0 px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/40 transition-all duration-300 hover:scale-105"
+            className="group bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white border-0 px-6 py-3 font-semibold rounded-lg shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105 hover-glow"
           >
             Voir mes réalisations
-            <ArrowDown className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-y-1 transition-transform duration-300" />
+            <ArrowDown className="ml-2 w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-300" />
           </Button>
 
           <div className="relative inline-block">
@@ -114,18 +111,18 @@ export function HeroSection() {
               onClick={() => setCvOpen(o => !o)}
               variant="outline"
               size="lg"
-              className="bg-transparent border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-500/50 px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105 flex items-center"
+              className="bg-transparent border-gray-500/30 text-gray-300 hover:bg-emerald-500/10 hover:border-emerald-400/50 hover:text-emerald-300 px-6 py-3 font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover-lift flex items-center"
             >
-              <Download className="mr-2 w-4 h-4 md:w-5 md:h-5" />
-              Télécharger CV
-              <ChevronDown className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+              <Download className="mr-2 w-4 h-4" />
+              CV
+              <ChevronDown className="ml-2 w-4 h-4" />
             </Button>
             {cvOpen && (
-              <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded shadow-lg z-10 border border-emerald-100">
+              <div className="absolute left-0 mt-2 w-48 bg-slate-900 rounded-lg shadow-xl z-10 border border-gray-700">
                 <a
                   href="/Seydina%20Thioub%20Diagne%20.pdf"
                   download
-                  className="block px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900 cursor-pointer"
+                  className="block px-4 py-2 text-gray-300 hover:bg-emerald-500/20 hover:text-emerald-300 cursor-pointer rounded-lg transition"
                   onClick={() => {
                     setCvOpen(false);
                     setConfetti(true);

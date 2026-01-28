@@ -2,10 +2,54 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Code2, Network, Shield, Users, BookOpen, Palette } from "lucide-react"
+import { Code2, Network, Shield, Users, BookOpen, Palette, ExternalLink, Briefcase, Award, Target } from "lucide-react"
 import Image from "next/image"
+import { useInView, useCountUp } from "@/hooks/use-animations"
 
 export function AboutSection() {
+  const { ref: statsRef, isInView: statsInView } = useInView()
+  
+  const stats = [
+    { label: "Années d'expérience", value: 4, icon: Briefcase },
+    { label: "Projets réalisés", value: 20, icon: Target },
+    { label: "Certifications", value: 3, icon: Award },
+  ]
+
+  const timeline = [
+    {
+      year: "2020",
+      title: "Technicien IT",
+      company: "Intelcia",
+      duration: "4 ans",
+      description: "Support IT, gestion d'un parc de 700 ordinateurs, maintenance infrastructure",
+      icon: Network,
+    },
+    {
+      year: "2022",
+      title: "Formation développement",
+      company: "Auto-apprentissage",
+      duration: "6 mois",
+      description: "React, TypeScript, Next.js - Formation intensive en développement web",
+      icon: Code2,
+    },
+    {
+      year: "2023",
+      title: "CCNA Certified",
+      company: "Cisco",
+      duration: "Certification",
+      description: "Architecture réseau, OSPF, VLANs, Sécurité réseau",
+      icon: Award,
+    },
+    {
+      year: "2024",
+      title: "Full Stack Developer",
+      company: "Freelance",
+      duration: "En cours",
+      description: "Projets web modernes, architecture DevOps, solutions cloud",
+      icon: Users,
+    },
+  ]
+
   const expertise = [
     {
       icon: Code2,
@@ -54,7 +98,68 @@ export function AboutSection() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-emerald-400 to-green-300 bg-clip-text text-transparent">
             À Propos
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-400 mx-auto mt-6 rounded-full shadow-lg shadow-emerald-500/50" />
+          <p className="text-gray-400 max-w-2xl mx-auto">Parcours, expertise et réalisations</p>
+        </div>
+
+        {/* Stats Section */}
+        <div ref={statsRef as React.RefObject<HTMLDivElement>} className="grid grid-cols-3 gap-4 mb-16">
+          {stats.map((stat) => {
+            const Icon = stat.icon
+            const count = useCountUp(stat.value, 2000, statsInView)
+            return (
+              <div key={stat.label} className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl text-center hover:border-emerald-500/40 transition-all duration-300 hover-lift">
+                <Icon className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-white mb-2">{count}+</div>
+                <div className="text-sm text-gray-400">{stat.label}</div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Timeline Section */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-white mb-8 text-center">Parcours professionnel</h3>
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-500/50 to-emerald-500/0" />
+
+            {/* Timeline Items */}
+            <div className="space-y-8 md:space-y-12">
+              {timeline.map((item, idx) => {
+                const Icon = item.icon
+                const isEven = idx % 2 === 0
+
+                return (
+                  <div 
+                    key={item.year} 
+                    className={`flex gap-6 md:gap-12 ${isEven ? "md:flex-row-reverse" : ""} animate-fade-in-up`}
+                    style={{ animationDelay: `${idx * 150}ms` }}
+                  >
+                    {/* Content */}
+                    <div className={`flex-1 ${isEven ? "md:text-right" : ""}`}>
+                      <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300 group">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Icon className="w-5 h-5 text-emerald-400" />
+                          <span className="text-sm font-semibold text-emerald-400">{item.year}</span>
+                        </div>
+                        <h4 className="text-xl font-bold text-white mb-1">{item.title}</h4>
+                        <p className="text-sm text-gray-400 mb-2">{item.company} • {item.duration}</p>
+                        <p className="text-gray-300 text-sm leading-relaxed">{item.description}</p>
+                      </div>
+                    </div>
+
+                    {/* Timeline Dot */}
+                    <div className="hidden md:flex items-start pt-2">
+                      <div className="w-4 h-4 bg-emerald-500 rounded-full border-4 border-slate-900 shadow-lg shadow-emerald-500/50" />
+                    </div>
+
+                    {/* Spacer for mobile */}
+                    <div className="md:hidden flex-1" />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
 
         {/* First Part - Introduction with Photo aligned to specific text */}
@@ -236,72 +341,91 @@ export function AboutSection() {
         {/* Second Part - Expertise Grid */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">Domaines d'Expertise</h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Une approche holistique alliant développement moderne, architecture réseau et excellence technique
-            </p>
+            <h3 className="text-3xl font-bold text-white mb-3">Expertise</h3>
+            <p className="text-gray-400">Domaines clés de compétence</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {expertise.map((item, index) => (
-              <Card
-                key={item.title}
-                className={`group bg-black/20 backdrop-blur-sm border border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25 animate-fade-in-up`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    <div className="p-3 bg-emerald-500/20 rounded-lg group-hover:bg-emerald-500/30 transition-colors duration-300 mr-4">
-                      <item.icon className="w-6 h-6 text-emerald-400" />
-                    </div>
-                    <h4 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {expertise.map((item, index) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={item.title}
+                  className="group p-4 bg-black/20 backdrop-blur-sm border border-emerald-500/20 hover:border-emerald-500/40 rounded-lg transition-all duration-300 hover:bg-emerald-500/10 cursor-pointer hover-lift animate-fade-in-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <Icon className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <h4 className="font-semibold text-white group-hover:text-emerald-300 transition-colors text-sm md:text-base">
                       {item.title}
                     </h4>
                   </div>
-
-                  <p className="text-gray-400 text-sm leading-relaxed mb-4">{item.description}</p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {item.skills.map((skill) => (
-                      <Badge
-                        key={skill}
-                        variant="outline"
-                        className="bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors duration-300 text-xs"
-                      >
+                  <p className="text-xs md:text-sm text-gray-400 group-hover:text-gray-300 transition-colors line-clamp-2 mb-3">
+                    {item.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {item.skills.slice(0, 3).map((skill) => (
+                      <span key={skill} className="px-2 py-1 text-xs bg-emerald-500/15 border border-emerald-500/20 rounded text-emerald-300 group-hover:bg-emerald-500/25 transition-colors">
                         {skill}
-                      </Badge>
+                      </span>
                     ))}
+                    {item.skills.length > 3 && (
+                      <span className="px-2 py-1 text-xs text-gray-500">+{item.skills.length - 3}</span>
+                    )}
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              )
+            })}
           </div>
         </div>
 
-        {/* Third Part - Certifications */}
+        {/* Certifications */}
         <div className="text-center">
           <h3 className="text-2xl font-bold text-white mb-8">Certifications & Formation</h3>
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-4">
             {[
-              { name: "Software Engineering", type: "Formation", color: "from-blue-500 to-cyan-400" },
-              { name: "CCNA Certified", type: "Cisco", color: "from-emerald-500 to-green-400" },
-              { name: "Network Security", type: "Spécialisation", color: "from-purple-500 to-pink-400" },
-            ].map((cert) => (
-              <div
-                key={cert.name}
-                className="group p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300 hover:scale-105"
-              >
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${cert.color} p-0.5`}>
-                  <div className="w-full h-full bg-black rounded-full flex items-center justify-center">
-                    <Shield className="w-8 h-8 text-white" />
+              { name: "Software Engineering", type: "Formation", color: "from-blue-500 to-cyan-400", link: null },
+              { name: "CCNA Certified", type: "Cisco", color: "from-emerald-500 to-green-400", link: "https://www.credly.com/users/seydina-thioub-diagne/badges#credly" },
+              { name: "Network Security", type: "Spécialisation", color: "from-purple-500 to-pink-400", link: null },
+            ].map((cert) => {
+              const content = (
+                <>
+                  <div className={`w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-r ${cert.color} p-0.5`}>
+                    <div className="w-full h-full bg-black rounded-full flex items-center justify-center">
+                      <Shield className="w-5 h-5 text-white" />
+                    </div>
                   </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <h4 className="font-semibold text-white group-hover:text-emerald-400 transition-colors text-sm md:text-base">
+                      {cert.name}
+                    </h4>
+                    {cert.link && (
+                      <ExternalLink className="w-3 h-3 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-400">{cert.type}</p>
+                </>
+              )
+
+              return cert.link ? (
+                <a
+                  key={cert.name}
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group p-4 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-lg hover:border-emerald-500/40 hover:bg-emerald-500/10 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 cursor-pointer hover-lift animate-fade-in-up"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div
+                  key={cert.name}
+                  className="group p-4 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-lg hover:border-emerald-500/40 transition-all duration-300 animate-fade-in-up"
+                >
+                  {content}
                 </div>
-                <h4 className="font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">
-                  {cert.name}
-                </h4>
-                <p className="text-sm text-gray-400">{cert.type}</p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

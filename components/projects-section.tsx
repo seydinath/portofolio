@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Catalogue from "./catalogue";
-import { ProjectCard } from "@/components/project-card";
 
 
 interface Project {
@@ -15,10 +13,6 @@ interface Project {
   component?: string;
   difficulty?: string;
   duration?: string;
-}
-
-interface ProjectsCarouselProps {
-  projects: Project[];
 }
 
 const projects: Project[] = [
@@ -99,8 +93,104 @@ const projects: Project[] = [
   },
 ];
 
+const websites = [
+  {
+    id: 1,
+    name: "STC – Sylla Trading Corporation",
+    stack: "WordPress (CMS moderne)",
+    description:
+      "Site vitrine institutionnel mettant en avant des projets BTP, conçu pour une publication simple et régulière des réalisations.",
+    link: "https://stc-sn.com/",
+    highlights: [
+      "Modules de galerie et gestion de contenu",
+      "Mise à jour régulière et optimisation SEO",
+      "Présentation claire et fiable des projets BTP",
+    ],
+  },
+  {
+    id: 2,
+    name: "2T BTP",
+    stack: "React + bibliothèques 2D/3D & BIM",
+    description:
+      "Interface interactive et immersive illustrant l’innovation technologique via des rendus 2D/3D.",
+    link: "https://2tbtp.sn/",
+    highlights: [
+      "Intégration d’outils de visualisation 2D/3D",
+      "Orientation BIM pour la projection des projets",
+      "UI moderne valorisant l’expertise technique",
+    ],
+  },
+  {
+    id: 3,
+    name: "Medimag",
+    stack: "CMS e‑commerce + paiement sécurisé",
+    description:
+      "Plateforme e‑commerce d’équipements dentaires avec catalogue riche et intégrations logistiques.",
+    link: "https://medimagsn.com/",
+    highlights: [
+      "Gestion de catalogue et paiement sécurisé",
+      "Navigation claire et présentation détaillée des produits",
+      "Intégration logistique et optimisation éditoriale",
+    ],
+  },
+  {
+    id: 4,
+    name: "Truelle d’Or",
+    stack: "CMS flexible + plugins événementiels",
+    description:
+      "Vitrine institutionnelle avec modules d’événements, inscriptions et galeries multimédias.",
+    link: "https://truelledor.com/",
+    highlights: [
+      "Modules de gestion d’événements et formulaires d’inscription",
+      "Galeries multimédias et mise en avant des activités",
+      "CMS flexible avec plugins de contenu",
+    ],
+  },
+  {
+    id: 5,
+    name: "Lesekou",
+    stack: "CMS + JavaScript moderne (prévu)",
+    description:
+      "Bases d’une plateforme interactive et évolutive, prête à accueillir des services numériques variés.",
+    link: "https://lesekou.com/",
+    highlights: [
+      "Architecture adaptable et extensible",
+      "Fondations pour des fonctionnalités interactives",
+      "Orientation services numériques",
+    ],
+  },
+  {
+    id: 6,
+    name: "Sobat SN",
+    stack: "CMS (en définition)",
+    description:
+      "Plateforme locale en cours de définition, pensée pour le marché sénégalais avec une identité cohérente.",
+    link: "https://sobatsn.com/",
+    highlights: [
+      "Architecture évolutive",
+      "Identité visuelle cohérente",
+      "Approche locale et contextualisée",
+    ],
+  },
+  {
+    id: 7,
+    name: "Agrow",
+    stack: "Next.js + Vercel (SSR)",
+    description:
+      "Plateforme connectant les acteurs agricoles avec performance, SEO et déploiement scalable.",
+    link: "https://agrowomanecology.com/",
+    highlights: [
+      "Rendu côté serveur (SSR) et SEO natif",
+      "Interface rapide et responsive",
+      "Connexion des acteurs agricoles via une expérience fluide",
+    ],
+  },
+];
+
 export function ProjectsSection() {
   const [showCatalogue, setShowCatalogue] = useState(false);
+  const [activeId, setActiveId] = useState<number | null>(projects[0]?.id ?? null);
+  const [activeWebsiteId, setActiveWebsiteId] = useState<number | null>(websites[0]?.id ?? null);
   return (
     <section className="py-20 px-4 relative">
       <div className="max-w-7xl mx-auto">
@@ -139,16 +229,153 @@ export function ProjectsSection() {
           </div>
         )}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {["Tous", "React", "Network", "Full Stack", "Animation"].map((filter) => (
+          {["Tous", "React", "Network", "Full Stack", "Animation"].map((filter, idx) => (
             <button
               key={filter}
-              className="px-4 py-2 bg-black/20 border border-emerald-500/20 rounded-full text-emerald-400 text-sm hover:bg-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300"
+              className="px-4 py-2 bg-black/20 border border-emerald-500/20 rounded-full text-emerald-400 text-sm hover:bg-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300 hover-lift animate-fade-in-up"
+              style={{ animationDelay: `${idx * 50}ms` }}
             >
               {filter}
             </button>
           ))}
         </div>
-        <ProjectsCarousel projects={projects} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="space-y-4">
+            <h3 className="text-2xl font-semibold text-white">Interfaces & Démos</h3>
+            <div className="space-y-3">
+              {projects.map((project, idx) => {
+                const isActive = activeId === project.id;
+                return (
+                  <div
+                    key={project.id}
+                    className={`group rounded-2xl border transition-all duration-300 backdrop-blur-sm hover-lift animate-fade-in-up ${
+                      isActive 
+                        ? "bg-emerald-500/10 border-emerald-500/60 shadow-lg shadow-emerald-500/20"
+                        : "bg-black/20 border-emerald-500/20 hover:bg-emerald-500/5 hover:border-emerald-500/40"
+                    }`}
+                    style={{ animationDelay: `${idx * 80}ms` }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setActiveId(isActive ? null : project.id)}
+                      className="w-full px-6 py-5 text-left flex flex-wrap items-center justify-between gap-3"
+                      aria-expanded={isActive}
+                    >
+                      <div>
+                        <h4 className="text-lg md:text-xl font-semibold text-white group-hover:text-emerald-300 transition-colors">
+                          {project.title}
+                        </h4>
+                        <p className="text-sm text-gray-400">{project.difficulty} • {project.duration}</p>
+                      </div>
+                      <span className={`text-emerald-400 text-sm font-semibold transition-transform ${isActive ? "rotate-180" : "rotate-0"}`}>
+                        ▾
+                      </span>
+                    </button>
+
+                    <div
+                      className={`px-6 pb-6 transition-all duration-300 ${
+                        isActive ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                      } overflow-hidden`}
+                    >
+                      <p className="text-gray-300 text-sm leading-relaxed mb-4">{project.description}</p>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 rounded-full text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-300"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex flex-wrap gap-3">
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-4 py-2 rounded-lg border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 transition"
+                        >
+                          Voir le code
+                        </a>
+                        <a
+                          href={project.liveUrl}
+                          className="px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-green-500 text-white hover:from-emerald-500 hover:to-green-400 transition"
+                        >
+                          Voir la démo
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-2xl font-semibold text-white">Sites Web réalisés</h3>
+            <div className="space-y-3">
+              {websites.map((site, idx) => {
+                const isActive = activeWebsiteId === site.id;
+                return (
+                  <div
+                    key={site.id}
+                    className={`group rounded-2xl border transition-all duration-300 backdrop-blur-sm hover-lift animate-fade-in-up ${
+                      isActive
+                        ? "border-blue-500/40 bg-blue-500/10 shadow-lg shadow-blue-500/10"
+                        : "border-emerald-500/20 bg-black/20 hover:border-blue-500/40"
+                    }`}
+                    style={{ animationDelay: `${idx * 80}ms` }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setActiveWebsiteId(isActive ? null : site.id)}
+                      className="w-full px-6 py-5 text-left flex flex-wrap items-center justify-between gap-3"
+                      aria-expanded={isActive}
+                    >
+                      <div>
+                        <h4 className="text-lg md:text-xl font-semibold text-white group-hover:text-blue-300 transition-colors">
+                          {site.name}
+                        </h4>
+                        <p className="text-sm text-gray-400">{site.stack}</p>
+                      </div>
+                      <span className={`text-blue-300 text-sm font-semibold transition-transform ${isActive ? "rotate-180" : "rotate-0"}`}>
+                        ▾
+                      </span>
+                    </button>
+
+                    <div
+                      className={`px-6 pb-6 transition-all duration-300 ${
+                        isActive ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
+                      } overflow-hidden`}
+                    >
+                      <p className="text-gray-300 text-sm leading-relaxed mb-4">{site.description}</p>
+                      <ul className="space-y-2">
+                        {site.highlights.map((item) => (
+                          <li key={item} className="flex items-start gap-2 text-sm text-gray-300">
+                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-400" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      {site.link && (
+                        <div className="mt-4">
+                          <a
+                            href={site.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-4 py-2 rounded-lg border border-blue-500/30 text-blue-300 hover:bg-blue-500/10 transition"
+                          >
+                            Visiter le site
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
         <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
           <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300">
             <div className="text-3xl font-bold text-emerald-400 mb-2">{projects.length}</div>
@@ -185,129 +412,5 @@ export function ProjectsSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-
-
-function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
-  const [current, setCurrent] = useState(0);
-  const visibleCount = 3;
-  const maxIndex = Math.max(0, projects.length - visibleCount);
-  const scrollRef = React.useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Smart auto-play: pauses on hover/focus, resumes otherwise
-  React.useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev < maxIndex ? prev + 1 : 0));
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [isPaused, maxIndex]);
-
-  React.useEffect(() => {
-    if (scrollRef.current) {
-      const cardWidth = scrollRef.current.offsetWidth / visibleCount;
-      scrollRef.current.scrollTo({
-        left: current * cardWidth,
-        behavior: "smooth",
-      });
-    }
-  }, [current, visibleCount]);
-
-  const handlePrev = () => setCurrent((prev) => Math.max(0, prev - 1));
-  const handleNext = () => setCurrent((prev) => Math.min(maxIndex, prev + 1));
-
-
-  // 3D effect: cards rotate slightly based on position, height 520px, spaced out
-  const getCardStyle = (idx: number) => {
-    const offset = idx - current;
-    const isActive = idx >= current && idx < current + visibleCount;
-    return {
-      flex: `0 0 ${100 / visibleCount}%`,
-      height: "600px", // Hauteur idéale pour supprimer la scroll bar verticale
-      margin: "0 1.5rem",
-      transform:
-        isActive
-          ? `scale(1.05) perspective(900px) rotateY(${offset * 10}deg)`
-          : `scale(0.93) perspective(900px) rotateY(${offset * 20}deg)`,
-      opacity: isActive ? 1 : 0.3,
-      transition: "transform 0.7s cubic-bezier(.23,1,.32,1), opacity 0.5s",
-      zIndex: isActive ? 2 : 1,
-      overflow: "hidden",
-      boxShadow: isActive ? "0 8px 32px 0 rgba(0,0,0,0.12)" : "none",
-      background: "none",
-    };
-  };
-
-  // Touch event handlers for swipe navigation
-  const touchStartX = React.useRef<number | null>(null);
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    // Prevent scrolling the page while swiping
-    if (touchStartX.current !== null) {
-      e.preventDefault();
-    }
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (touchStartX.current !== null) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diff = touchEndX - touchStartX.current;
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-          handlePrev();
-        } else {
-          handleNext();
-        }
-      }
-      touchStartX.current = null;
-    }
-  };
-
-  return (
-    <div
-      className="relative w-full flex flex-col items-center"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
-    >
-  <div className="flex items-center justify-center w-full" style={{ cursor: "pointer" }}>
-        <div
-          ref={scrollRef}
-          className="flex overflow-x-hidden overflow-y-hidden snap-x snap-mandatory w-full px-2"
-          style={{ scrollBehavior: "smooth", overflowY: "hidden" }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {projects.map((project, idx) => (
-            <div
-              key={project.id}
-              className="min-w-[300px] md:min-w-[350px] lg:min-w-[400px] snap-center transition-transform duration-500 ease-in-out"
-              style={getCardStyle(idx)}
-            >
-              <ProjectCard project={project} index={idx} />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="mt-4 flex justify-center gap-2">
-        {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${i === current ? "bg-emerald-500 scale-125" : "bg-emerald-300/30"}`}
-            aria-label={`Aller à la page ${i + 1}`}
-          />
-        ))}
-      </div>
-    </div>
   );
 }

@@ -44,30 +44,22 @@ export function Navigation({ activeSection = "home" }: NavigationProps) {
     <>
       {/* Desktop Navigation */}
       <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 hidden md:block">
-        <div className="bg-black/20 backdrop-blur-xl border border-emerald-500/20 rounded-xl px-3 py-1.5 shadow-2xl">
+        <div className="bg-black/40 backdrop-blur-xl border border-emerald-400/10 rounded-full px-4 py-2 shadow-lg">
           <div className="flex items-center space-x-4">
             {navItems.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
                 onClick={() => handleNavigation(id)}
-                className={`group relative px-2.5 py-1 rounded-lg transition-all duration-300 transform hover:scale-105 ${
+                className={`group relative px-3 py-1.5 rounded-full transition-all duration-300 transform hover:scale-105 ${
                   activeSection === id
-                    ? "bg-emerald-500/20 text-emerald-400 shadow-lg shadow-emerald-500/25"
-                    : "text-gray-300 hover:text-emerald-400 hover:bg-emerald-500/10"
+                    ? "bg-emerald-500/20 text-emerald-300 shadow-lg shadow-emerald-500/20"
+                    : "text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10"
                 }`}
               >
                 <div className="flex items-center space-x-1">
-                  <Icon className="w-3 h-3" />
+                  <Icon className="w-3.5 h-3.5" />
                   <span className="font-medium text-xs">{label}</span>
                 </div>
-
-                {/* 3D Effect */}
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                {/* Active Indicator */}
-                {activeSection === id && (
-                  <div className="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-lg shadow-emerald-400/50" />
-                )}
               </button>
             ))}
           </div>
