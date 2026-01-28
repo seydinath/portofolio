@@ -17,7 +17,7 @@ export function AboutSection() {
 
   const timeline = [
     {
-      year: "2020",
+      year: "2025",
       title: "Technicien IT",
       company: "Intelcia",
       duration: "4 ans",
@@ -33,7 +33,7 @@ export function AboutSection() {
       icon: Code2,
     },
     {
-      year: "2023",
+      year: "2025",
       title: "CCNA Certified",
       company: "Cisco",
       duration: "Certification",
