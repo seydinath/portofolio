@@ -1,20 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
-    unoptimized: true,
+    unoptimized: false,
+  },
+  turbopack: {
+    root: '.',
   },
 }
-// Favicon setup
-export const metadata = {
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
 
 export default nextConfig

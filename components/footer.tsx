@@ -1,139 +1,78 @@
-"use client"
+import Link from "next/link"
+import { Github, Linkedin, Mail } from "lucide-react"
 
-import { Github, Linkedin, Mail, ExternalLink, ArrowUp } from "lucide-react"
+const footerLinks = [
+  { label: "À propos", href: "#about" },
+  { label: "Compétences", href: "#skills" },
+  { label: "Projets", href: "#projects" },
+  { label: "Expérience", href: "#experience" },
+  { label: "Formation", href: "#formation" },
+  { label: "Contact", href: "#contact" },
+]
+
+const socialLinks = [
+  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/sthdiagne", label: "LinkedIn" },
+  { icon: Mail, href: "mailto:seydinadiagne2@outlook.com", label: "Email" },
+]
 
 export function Footer() {
-  const navLinks = [
-    { label: "Accueil", href: "#home" },
-    { label: "À Propos", href: "#about" },
-    { label: "Projets", href: "#projects" },
-    { label: "Contact", href: "#contact" },
-  ]
-
-  const socialLinks = [
-    { icon: Github, href: "https://github.com/seydinath", label: "GitHub" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/sthdiagne/", label: "LinkedIn" },
-    { icon: Mail, href: "mailto:seydinadiagne2@outlook.com", label: "Email" },
-  ]
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
-
   return (
-    <footer className="relative bg-gradient-to-t from-black via-slate-900/50 to-transparent border-t border-emerald-500/10">
-      <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-          {/* Brand & Bio */}
+    <footer className="border-t border-border bg-background">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid gap-8 lg:grid-cols-[1fr,auto]">
+          {/* Logo and description */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent">
-              Seydina Th.Diagne
-            </h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Ingénieur Full Stack passionné par les solutions modernes, la sécurité réseau et le code propre.
+            <Link href="/" className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-foreground flex items-center justify-center">
+                <span className="text-background font-bold text-sm">SD</span>
+              </div>
+              <span className="font-semibold text-foreground">Seydina Diagne</span>
+            </Link>
+            <p className="text-sm text-muted-foreground max-w-md">
+              Développeur Full Stack et Spécialiste IT. Certifié CCNA, 
+              spécialisé en React, Node.js et infrastructures réseau.
             </p>
-            <div className="flex space-x-3 pt-2">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((social, index) => (
+                <Link
+                  key={index}
+                  href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group p-2 bg-black/30 border border-gray-500/20 rounded-lg hover:border-emerald-400/50 hover:bg-emerald-500/10 transition-all duration-300"
-                  aria-label={label}
+                  className="p-2 rounded-lg border border-border hover:bg-muted transition-colors"
                 >
-                  <Icon className="w-4 h-4 text-gray-400 group-hover:text-emerald-300" />
-                </a>
+                  <social.icon className="h-4 w-4" />
+                  <span className="sr-only">{social.label}</span>
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* Quick Navigation */}
-          <div>
-            <h4 className="font-semibold text-white mb-4">Navigation</h4>
-            <ul className="space-y-2">
-              {navLinks.map(({ label, href }) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    className="text-sm text-gray-400 hover:text-emerald-300 transition-colors duration-300 inline-flex items-center gap-1 group"
-                  >
-                    {label}
-                    <ArrowUp className="w-3 h-3 opacity-0 group-hover:opacity-100 -rotate-90 transition-opacity" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Useful Links */}
-          <div>
-            <h4 className="font-semibold text-white mb-4">Ressources</h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="https://github.com/seydinath"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-400 hover:text-emerald-300 transition-colors duration-300 inline-flex items-center gap-1 group"
-                >
-                  GitHub
-                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.linkedin.com/in/sthdiagne/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-400 hover:text-emerald-300 transition-colors duration-300 inline-flex items-center gap-1 group"
-                >
-                  LinkedIn
-                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:seydinadiagne2@outlook.com"
-                  className="text-sm text-gray-400 hover:text-emerald-300 transition-colors duration-300 inline-flex items-center gap-1 group"
-                >
-                  Contact
-                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </li>
-            </ul>
-          </div>
+          {/* Navigation */}
+          <nav className="flex flex-wrap gap-x-8 gap-y-4">
+            {footerLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-emerald-500/10 mb-6" />
-
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-center md:text-left">
-            <p className="text-xs md:text-sm text-gray-500">
-              © 2024 Seydina Th.Diagne. Tous droits réservés.
-            </p>
-            <p className="text-xs text-gray-600 mt-1">
-              Conçu avec React & TypeScript • Déployé sur Vercel
-            </p>
-          </div>
-
-          {/* Back to Top Button */}
-          <button
-            onClick={scrollToTop}
-            className="group p-2 bg-black/30 border border-gray-500/20 rounded-lg hover:border-emerald-400/50 hover:bg-emerald-500/10 transition-all duration-300"
-            aria-label="Retour en haut"
-          >
-            <ArrowUp className="w-4 h-4 text-gray-400 group-hover:text-emerald-300 transition-colors" />
-          </button>
+        {/* Bottom */}
+        <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Seydina Thioub Diagne. Tous droits réservés.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Conçu et développé avec{" "}
+            <span className="text-foreground">passion</span>
+          </p>
         </div>
-      </div>
-
-      {/* Subtle Gradient Background */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
       </div>
     </footer>
   )

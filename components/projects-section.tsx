@@ -1,416 +1,526 @@
-"use client";
-import React, { useState } from "react";
+"use client"
 
+import { useState, useRef } from "react"
+import Link from "next/link"
+import { ArrowUpRight, Github, Building2, Stethoscope, Hammer, Sparkles, Leaf, Briefcase, BarChart3, ExternalLink, Code2, Globe } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useScrollAnimation, useTiltEffect } from "@/hooks/use-animations"
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  githubUrl: string;
-  liveUrl: string;
-  imageUrl: string;
-  component?: string;
-  difficulty?: string;
-  duration?: string;
-}
-
-const projects: Project[] = [
+const clientProjects = [
   {
     id: 1,
-    title: "Formulaire Carte de Crédit Animé",
-    description:
-      "Interface de paiement interactive avec animation 3D de carte de crédit, validation en temps réel et design moderne. Attention portée aux détails visuels et UX.",
-    technologies: ["React", "TypeScript", "CSS 3D", "Animation", "Form Validation"],
-    githubUrl: "https://github.com/seydinath/credit-card-form-3d",
-    liveUrl: "/credit-card-demo",
-    imageUrl: "/images/credit-card-illustration.png",
-    component: "CreditCardForm",
-    difficulty: "Intermédiaire",
-    duration: "2 semaines",
-  },
-  {
-    id: 2,
-    title: "Dashboard de Monitoring Réseau",
-    description:
-      "Système de surveillance réseau en temps réel avec alertes SNMP, visualisation des topologies et métriques de performance. Interface moderne pour administrateurs réseau.",
-    technologies: ["React", "D3.js", "SNMP", "WebSocket", "Network Analytics", "Node.js"],
-    githubUrl: "https://github.com/seydinath/network-monitoring-dashboard",
-    liveUrl: "/dashboard-demo",
-    imageUrl: "/images/network-dashboard-illustration.png",
-    difficulty: "Avancé",
-    duration: "1 mois",
-  },
-  {
-    id: 3,
-    title: "Système de Rendez-vous Médicaux & File d'Attente",
-    description:
-      "Application de gestion des rendez-vous médicaux avec calendrier interactif, file d'attente en temps réel, assignation des patients aux médecins et notifications. Interface moderne et ergonomique pour cliniques et hôpitaux.",
-    technologies: ["React", "Next.js", "TypeScript", "TailwindCSS", "Socket.io", "Calendar API"],
-    githubUrl: "https://github.com/seydinath/medical-appointment-system",
-    liveUrl: "/medical-appointment-demo",
-    imageUrl: "/images/medical-appointment-illustration.png",
-    component: "MedicalAppointmentDemo",
-    difficulty: "Avancé",
-    duration: "5 semaines",
-  },
-  {
-    id: 4,
-    title: "Configurateur VLAN Automatisé",
-    description:
-      "Outil de configuration automatique des VLANs pour équipements Cisco. Interface web pour générer les scripts de configuration avec validation des règles réseau.",
-    technologies: ["Python", "Flask", "Cisco IOS", "VLAN", "Network Automation", "React"],
-    githubUrl: "https://github.com/seydinath/vlan-configurator",
-    liveUrl: "/vlan-configurator-demo",
-    imageUrl: "/images/vlan-configurator-illustration.png",
-    difficulty: "Avancé",
-    duration: "3 semaines",
-  },
-  {
-    id: 5,
-    title: "Animation de Frappe Interactive",
-    description:
-      "Composant React d'animation de machine à écrire avec contrôles de lecture, textes multiples et effets visuels. Parfait pour les pages d'accueil modernes.",
-    technologies: ["React", "TypeScript", "CSS Animations", "Framer Motion", "Hooks"],
-    githubUrl: "https://github.com/seydinath/typing-animation-react",
-    liveUrl: "/typing-animation",
-    imageUrl: "/images/typing-animation-illustration.png",
-    component: "TypingAnimation",
-    difficulty: "Débutant",
-    duration: "1 semaine",
-  },
-  {
-    id: 6,
-    title: "Système de Gestion de Tâches",
-    description:
-      "Application de productivité avec drag & drop, notifications push, synchronisation temps réel et analytics. Interface inspirée de Notion avec fonctionnalités avancées.",
-    technologies: ["React", "Node.js", "Socket.io", "MongoDB", "PWA", "Push Notifications"],
-    githubUrl: "https://github.com/seydinath/task-management-system",
-    liveUrl: "/task-manager-demo",
-    imageUrl: "/images/task-manager-illustration.png",
-    difficulty: "Intermédiaire",
-    duration: "4 semaines",
-  },
-];
-
-const websites = [
-  {
-    id: 1,
-    name: "STC – Sylla Trading Corporation",
-    stack: "WordPress (CMS moderne)",
-    description:
-      "Site vitrine institutionnel mettant en avant des projets BTP, conçu pour une publication simple et régulière des réalisations.",
+    title: "STC - Sylla Trading Corporation",
+    description: "Site vitrine complet pour une entreprise de construction et d'ingénierie au Sénégal. Sections services (bâtiments, hydraulique, hangars), actualités avec slider, formulaire de contact et design moderne responsive.",
+    tags: ["WordPress", "PHP", "CSS", "JavaScript", "Responsive Design"],
     link: "https://stc-sn.com/",
-    highlights: [
-      "Modules de galerie et gestion de contenu",
-      "Mise à jour régulière et optimisation SEO",
-      "Présentation claire et fiable des projets BTP",
-    ],
+    featured: true,
+    icon: Building2,
+    color: "from-orange-500 to-amber-500",
+    glowColor: "rgba(249, 115, 22, 0.3)",
+    category: "Site Vitrine Entreprise",
+    client: "Sylla Trading Corporation"
   },
   {
     id: 2,
-    name: "2T BTP",
-    stack: "React + bibliothèques 2D/3D & BIM",
-    description:
-      "Interface interactive et immersive illustrant l’innovation technologique via des rendus 2D/3D.",
+    title: "2T BTP - Tous Travaux BTP",
+    description: "Site web professionnel pour une entreprise spécialisée en bâtiment et travaux publics. Portfolio de projets réalisés (R+8, R+9), présentation des services (construction, consultance, formation) et formulaire de devis.",
+    tags: ["WordPress", "Elementor", "PHP", "CSS", "SEO"],
     link: "https://2tbtp.sn/",
-    highlights: [
-      "Intégration d’outils de visualisation 2D/3D",
-      "Orientation BIM pour la projection des projets",
-      "UI moderne valorisant l’expertise technique",
-    ],
+    featured: true,
+    icon: Hammer,
+    color: "from-blue-500 to-cyan-500",
+    glowColor: "rgba(59, 130, 246, 0.3)",
+    category: "Site Vitrine BTP",
+    client: "2T BTP Sénégal"
   },
   {
     id: 3,
-    name: "Medimag",
-    stack: "CMS e‑commerce + paiement sécurisé",
-    description:
-      "Plateforme e‑commerce d’équipements dentaires avec catalogue riche et intégrations logistiques.",
+    title: "Medimag - Équipements Dentaires",
+    description: "Plateforme e-commerce pour un distributeur d'équipements et produits dentaires/paramédicaux. Catalogue produits avec catégories, témoignages clients, newsletter et téléchargement de catalogue PDF.",
+    tags: ["WordPress", "WooCommerce", "PHP", "E-commerce", "Catalogue"],
     link: "https://medimagsn.com/",
-    highlights: [
-      "Gestion de catalogue et paiement sécurisé",
-      "Navigation claire et présentation détaillée des produits",
-      "Intégration logistique et optimisation éditoriale",
-    ],
+    featured: true,
+    icon: Stethoscope,
+    color: "from-teal-500 to-emerald-500",
+    glowColor: "rgba(20, 184, 166, 0.3)",
+    category: "E-commerce / Catalogue",
+    client: "Medimag Sénégal"
   },
+]
+
+const otherClientProjects = [
   {
     id: 4,
-    name: "Truelle d’Or",
-    stack: "CMS flexible + plugins événementiels",
-    description:
-      "Vitrine institutionnelle avec modules d’événements, inscriptions et galeries multimédias.",
+    title: "Truelle d'Or",
+    description: "Site vitrine pour entreprise de construction organisant la 'Nuit du Bâtiment' et le FIISEC. Services de plans architecturaux 2D/3D, études topographiques et expertise foncière.",
+    tags: ["WordPress", "Events", "BTP", "Design"],
     link: "https://truelledor.com/",
-    highlights: [
-      "Modules de gestion d’événements et formulaires d’inscription",
-      "Galeries multimédias et mise en avant des activités",
-      "CMS flexible avec plugins de contenu",
-    ],
+    icon: Sparkles,
+    color: "from-yellow-500 to-orange-500",
+    glowColor: "rgba(234, 179, 8, 0.3)",
+    client: "Truelle d'Or Sénégal"
   },
   {
     id: 5,
-    name: "Lesekou",
-    stack: "CMS + JavaScript moderne (prévu)",
-    description:
-      "Bases d’une plateforme interactive et évolutive, prête à accueillir des services numériques variés.",
-    link: "https://lesekou.com/",
-    highlights: [
-      "Architecture adaptable et extensible",
-      "Fondations pour des fonctionnalités interactives",
-      "Orientation services numériques",
-    ],
+    title: "AgroWomanEcology",
+    description: "Plateforme pour une organisation accompagnant les femmes du Sénégal vers l'agriculture écologique. Formation, gestion de l'eau et développement économique.",
+    tags: ["WordPress", "ONG", "Agriculture", "Écologie"],
+    link: "https://agrowomanecology.com/",
+    icon: Leaf,
+    color: "from-green-500 to-lime-500",
+    glowColor: "rgba(34, 197, 94, 0.3)",
+    client: "AgroWomanEcology"
   },
   {
     id: 6,
-    name: "Sobat SN",
-    stack: "CMS (en définition)",
-    description:
-      "Plateforme locale en cours de définition, pensée pour le marché sénégalais avec une identité cohérente.",
-    link: "https://sobatsn.com/",
-    highlights: [
-      "Architecture évolutive",
-      "Identité visuelle cohérente",
-      "Approche locale et contextualisée",
-    ],
+    title: "Lesekou Agency",
+    description: "Site web d'agence digitale (temporairement en maintenance). Création de sites web, branding et marketing digital pour les entreprises sénégalaises.",
+    tags: ["WordPress", "Agence", "Digital", "Marketing"],
+    link: "https://lesekou.com/",
+    icon: Globe,
+    color: "from-purple-500 to-pink-500",
+    glowColor: "rgba(168, 85, 247, 0.3)",
+    client: "Lesekou Agency"
   },
+]
+
+const personalProjects = [
   {
     id: 7,
-    name: "Agrow",
-    stack: "Next.js + Vercel (SSR)",
-    description:
-      "Plateforme connectant les acteurs agricoles avec performance, SEO et déploiement scalable.",
-    link: "https://agrowomanecology.com/",
-    highlights: [
-      "Rendu côté serveur (SSR) et SEO natif",
-      "Interface rapide et responsive",
-      "Connexion des acteurs agricoles via une expérience fluide",
-    ],
+    title: "JobConnect Sénégal",
+    description: "Application full-stack de mise en relation entre recruteurs et demandeurs d'emploi pour le travail temporaire et événementiel au Sénégal. Authentification Google OAuth, matching intelligent, filtres avancés par métier et localisation.",
+    tags: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "OAuth"],
+    link: "https://final-project-frontend-azure.vercel.app/",
+    github: "https://github.com/seydinathdiagne",
+    featured: true,
+    icon: Briefcase,
+    color: "from-indigo-500 to-purple-500",
+    glowColor: "rgba(99, 102, 241, 0.3)",
+    category: "Application Full Stack"
   },
-];
+  {
+    id: 8,
+    title: "Excel Insights Studio",
+    description: "Outil web d'analyse de données Excel avec génération automatique de graphiques dynamiques. Tableau croisé dynamique, propositions intelligentes, mode présentation et export PNG/Excel.",
+    tags: ["React", "TypeScript", "Chart.js", "Data Viz", "Excel Parser"],
+    link: "https://excel-to-graphs.vercel.app/",
+    github: "https://github.com/seydinathdiagne",
+    featured: true,
+    icon: BarChart3,
+    color: "from-emerald-500 to-teal-500",
+    glowColor: "rgba(16, 185, 129, 0.3)",
+    category: "Data Analytics Tool"
+  },
+]
+
+const projectStats = [
+  { label: "Sites Web Clients", value: "6+" },
+  { label: "Projets Personnels", value: "5+" },
+  { label: "Clients Satisfaits", value: "15+" },
+  { label: "Technologies Maîtrisées", value: "20+" }
+]
+
+function PersonalProjectCard({ project, index, isVisible, showClients }: { project: typeof personalProjects[0]; index: number; isVisible: boolean; showClients: boolean }) {
+  const [isHovered, setIsHovered] = useState(false)
+  const Icon = project.icon
+
+  return (
+    <div
+      className={`group relative p-8 rounded-3xl glass-card hover-lift transition-all duration-700 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      }`}
+      style={{ 
+        transitionDelay: `${(showClients ? 1000 : 500) + index * 150}ms`,
+        boxShadow: isHovered ? `0 30px 60px ${project.glowColor}` : "none"
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Project Visual */}
+      <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted/50 mb-6">
+        <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20`} />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem]" />
+        
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className={`p-6 rounded-2xl bg-gradient-to-br ${project.color} shadow-2xl transition-all duration-500 ${isHovered ? "scale-110" : "scale-100"}`}>
+            <Icon className="w-12 h-12 text-white" />
+          </div>
+        </div>
+        
+        <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+          <Link 
+            href={project.link}
+            target="_blank"
+            className="p-4 bg-white rounded-full text-black hover:scale-110 transition-transform"
+          >
+            <ExternalLink className="w-5 h-5" />
+          </Link>
+          {project.github && (
+            <Link 
+              href={project.github}
+              target="_blank"
+              className="p-4 bg-white rounded-full text-black hover:scale-110 transition-transform"
+            >
+              <Github className="w-5 h-5" />
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Project Info */}
+      <span className={`text-sm font-semibold bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
+        {project.category}
+      </span>
+      <h3 className="text-2xl font-bold mt-2 mb-3 group-hover:text-gradient transition-all">
+        {project.title}
+      </h3>
+      <p className="text-muted-foreground mb-6 leading-relaxed">
+        {project.description}
+      </p>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {project.tags.map((tag, tagIndex) => (
+          <span
+            key={tagIndex}
+            className="px-3 py-1.5 text-xs font-medium rounded-full glass"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className="flex gap-4">
+        <Button className="shine-effect" asChild>
+          <Link href={project.link} target="_blank">
+            Voir le projet
+            <ArrowUpRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+        {project.github && (
+          <Button variant="outline" className="glass" asChild>
+            <Link href={project.github} target="_blank">
+              <Github className="h-4 w-4" />
+            </Link>
+          </Button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function ProjectCard({ project, index, isVisible }: { project: typeof clientProjects[0]; index: number; isVisible: boolean }) {
+  const [isHovered, setIsHovered] = useState(false)
+  const Icon = project.icon
+
+  return (
+    <div
+      className={`group relative grid md:grid-cols-2 gap-8 p-8 rounded-3xl glass-card transition-all duration-700 hover-lift ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      }`}
+      style={{ 
+        transitionDelay: `${index * 150}ms`,
+        boxShadow: isHovered ? `0 30px 60px ${project.glowColor}` : "none"
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Animated background glow */}
+      <div 
+        className={`absolute inset-0 rounded-3xl transition-opacity duration-500 ${isHovered ? "opacity-100" : "opacity-0"}`}
+        style={{
+          background: `radial-gradient(circle at center, ${project.glowColor}, transparent 70%)`,
+          filter: "blur(40px)",
+          zIndex: -1
+        }}
+      />
+
+      {/* Project Visual */}
+      <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted/50">
+        <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20`} />
+        
+        {/* Animated grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem]" />
+        
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div 
+            className={`relative p-8 rounded-3xl bg-gradient-to-br ${project.color} shadow-2xl transition-all duration-500 ${
+              isHovered ? "scale-110 rotate-3" : "scale-100 rotate-0"
+            }`}
+          >
+            <Icon className="w-16 h-16 text-white" />
+            <div className="absolute inset-0 rounded-3xl animate-pulse-glow" style={{ boxShadow: `0 0 40px ${project.glowColor}` }} />
+          </div>
+        </div>
+        
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4">
+          <Link 
+            href={project.link}
+            target="_blank"
+            className="p-4 bg-white rounded-full text-black hover:scale-110 transition-transform shine-effect"
+          >
+            <ExternalLink className="w-6 h-6" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Project Info */}
+      <div className="flex flex-col justify-center">
+        <div className="flex items-center gap-3 mb-3">
+          <span className={`text-sm font-semibold bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
+            {project.category}
+          </span>
+          <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
+          <span className="text-sm text-muted-foreground">{project.client}</span>
+        </div>
+        
+        <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gradient transition-all duration-300">
+          {project.title}
+        </h3>
+        
+        <p className="text-muted-foreground mb-6 leading-relaxed">
+          {project.description}
+        </p>
+        
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tags.map((tag, tagIndex) => (
+            <span
+              key={tagIndex}
+              className="px-3 py-1.5 text-xs font-medium rounded-full glass hover:bg-primary/10 transition-colors"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        
+        <div className="flex gap-4">
+          <Button className="group/btn shine-effect" asChild>
+            <Link href={project.link} target="_blank">
+              Visiter le site
+              <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function ProjectsSection() {
-  const [showCatalogue, setShowCatalogue] = useState(false);
-  const [activeId, setActiveId] = useState<number | null>(projects[0]?.id ?? null);
-  const [activeWebsiteId, setActiveWebsiteId] = useState<number | null>(websites[0]?.id ?? null);
+  const {ref: sectionRef, isVisible} = useScrollAnimation(0.1)
+  const [activeFilter, setActiveFilter] = useState("Tous")
+
+  const filters = ["Tous", "Clients", "Personnel"]
+
+  const showClients = activeFilter !== "Personnel"
+  const showPersonal = activeFilter !== "Clients"
+
   return (
-    <section className="py-20 px-4 relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-emerald-400 to-green-300 bg-clip-text text-transparent">
-            Mes Réalisations
-          </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Découvrez une sélection de mes projets, alliant innovation technique et design moderne
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-400 mx-auto mt-6 rounded-full shadow-lg shadow-emerald-500/50" />
-          <button
-            className="mt-8 px-6 py-3 bg-gradient-to-r from-blue-500 to-emerald-400 text-white rounded-xl font-bold shadow hover:scale-105 transition-all duration-300"
-            onClick={() => setShowCatalogue(true)}
+    <section id="projects" className="py-24 lg:py-32 border-t border-border relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/10 to-background" />
+      
+      <div ref={sectionRef} className="mx-auto max-w-7xl px-6 lg:px-8 relative">
+        {/* Section header */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+          <div>
+            <div 
+              className={`flex items-center gap-4 mb-4 transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              <span className="text-sm text-primary font-mono px-3 py-1 rounded-full glass">03</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+                Projets & <span className="text-gradient">Réalisations</span>
+              </h2>
+            </div>
+            <p 
+              className={`text-lg text-muted-foreground max-w-xl transition-all duration-700 delay-100 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              Sites web réalisés pour des clients et projets personnels démontrant 
+              mon expertise en développement web moderne.
+            </p>
+          </div>
+
+          {/* Filters */}
+          <div 
+            className={`flex items-center gap-2 p-1.5 rounded-full glass transition-all duration-700 delay-200 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           >
-            Découvrir le Catalogue de Flyers
-          </button>
-        </div>
-        {showCatalogue && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-            <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 text-center animate-fadeIn">
+            {filters.map((filter) => (
               <button
-                className="absolute top-4 right-4 text-emerald-600 bg-emerald-100 rounded-full p-2 hover:bg-emerald-200 transition"
-                onClick={() => setShowCatalogue(false)}
-                aria-label="Fermer le message"
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-5 py-2.5 text-sm font-medium rounded-full transition-all duration-300 ${
+                  activeFilter === filter
+                    ? "bg-primary text-primary-foreground shadow-lg"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                {filter}
               </button>
-              <div className="pt-8 pb-4">
-                <h3 className="text-2xl font-bold text-emerald-500 mb-4">Espace en développement</h3>
-                <p className="text-gray-500 text-lg">Le catalogue de flyers sera bientôt disponible.<br/>Restez connecté pour découvrir cette nouveauté !</p>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Stats */}
+        <div 
+          className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          {projectStats.map((stat, index) => (
+            <div 
+              key={index} 
+              className="p-6 rounded-2xl glass-card text-center hover-lift group"
+            >
+              <p className="text-3xl md:text-4xl font-bold text-gradient-animated mb-2">{stat.value}</p>
+              <p className="text-sm text-muted-foreground">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Client Projects - Featured */}
+        {showClients && (
+          <div className="mb-20">
+            <div 
+              className={`flex items-center gap-4 mb-10 transition-all duration-700 delay-400 ${
+                isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+              }`}
+            >
+              <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg">
+                <Building2 className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-foreground">Sites Web Clients</h3>
+                <p className="text-sm text-muted-foreground">Projets livrés avec succès</p>
+              </div>
+            </div>
+            
+            <div className="space-y-8">
+              {clientProjects.map((project, index) => (
+                <ProjectCard 
+                  key={project.id} 
+                  project={project} 
+                  index={index}
+                  isVisible={isVisible}
+                />
+              ))}
+            </div>
+
+            {/* Other Client Projects Grid */}
+            <div 
+              className={`mt-12 transition-all duration-700 ${
+                isVisible ? "opacity-100" : "opacity-0"
+              }`} 
+              style={{ transitionDelay: "600ms" }}
+            >
+              <h4 className="text-xl font-bold text-foreground mb-6">Autres Réalisations</h4>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {otherClientProjects.map((project, index) => {
+                  const Icon = project.icon
+                  return (
+                    <Link
+                      key={project.id}
+                      href={project.link}
+                      target="_blank"
+                      className={`group p-6 rounded-2xl glass-card hover-lift transition-all duration-500 ${
+                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      }`}
+                      style={{ transitionDelay: `${700 + index * 100}ms` }}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div className={`p-3 rounded-xl bg-gradient-to-br ${project.color} shadow-lg group-hover:scale-110 transition-transform`}>
+                          <Icon className="h-5 w-5 text-white" />
+                        </div>
+                        <div className="p-2 rounded-lg glass opacity-0 group-hover:opacity-100 transition-all">
+                          <ArrowUpRight className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-gradient transition-all">
+                        {project.title}
+                      </h4>
+                      <p className="text-xs text-muted-foreground mb-3">{project.client}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.slice(0, 3).map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="px-2 py-1 text-xs rounded-full glass"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           </div>
         )}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {["Tous", "React", "Network", "Full Stack", "Animation"].map((filter, idx) => (
-            <button
-              key={filter}
-              className="px-4 py-2 bg-black/20 border border-emerald-500/20 rounded-full text-emerald-400 text-sm hover:bg-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300 hover-lift animate-fade-in-up"
-              style={{ animationDelay: `${idx * 50}ms` }}
+
+        {/* Personal Projects */}
+        {showPersonal && (
+          <div className="mb-12">
+            <div 
+              className={`flex items-center gap-4 mb-10 transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+              }`}
+              style={{ transitionDelay: showClients ? "900ms" : "400ms" }}
             >
-              {filter}
-            </button>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-white">Interfaces & Démos</h3>
-            <div className="space-y-3">
-              {projects.map((project, idx) => {
-                const isActive = activeId === project.id;
-                return (
-                  <div
-                    key={project.id}
-                    className={`group rounded-2xl border transition-all duration-300 backdrop-blur-sm hover-lift animate-fade-in-up ${
-                      isActive 
-                        ? "bg-emerald-500/10 border-emerald-500/60 shadow-lg shadow-emerald-500/20"
-                        : "bg-black/20 border-emerald-500/20 hover:bg-emerald-500/5 hover:border-emerald-500/40"
-                    }`}
-                    style={{ animationDelay: `${idx * 80}ms` }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setActiveId(isActive ? null : project.id)}
-                      className="w-full px-6 py-5 text-left flex flex-wrap items-center justify-between gap-3"
-                      aria-expanded={isActive}
-                    >
-                      <div>
-                        <h4 className="text-lg md:text-xl font-semibold text-white group-hover:text-emerald-300 transition-colors">
-                          {project.title}
-                        </h4>
-                        <p className="text-sm text-gray-400">{project.difficulty} • {project.duration}</p>
-                      </div>
-                      <span className={`text-emerald-400 text-sm font-semibold transition-transform ${isActive ? "rotate-180" : "rotate-0"}`}>
-                        ▾
-                      </span>
-                    </button>
-
-                    <div
-                      className={`px-6 pb-6 transition-all duration-300 ${
-                        isActive ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-                      } overflow-hidden`}
-                    >
-                      <p className="text-gray-300 text-sm leading-relaxed mb-4">{project.description}</p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 rounded-full text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-300"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="flex flex-wrap gap-3">
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-4 py-2 rounded-lg border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 transition"
-                        >
-                          Voir le code
-                        </a>
-                        <a
-                          href={project.liveUrl}
-                          className="px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-green-500 text-white hover:from-emerald-500 hover:to-green-400 transition"
-                        >
-                          Voir la démo
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 shadow-lg">
+                <Code2 className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-foreground">Projets Personnels</h3>
+                <p className="text-sm text-muted-foreground">Side projects & expérimentations</p>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {personalProjects.map((project, index) => (
+                <PersonalProjectCard 
+                  key={project.id}
+                  project={project} 
+                  index={index}
+                  isVisible={isVisible}
+                  showClients={showClients}
+                />
+              ))}
             </div>
           </div>
+        )}
 
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-white">Sites Web réalisés</h3>
-            <div className="space-y-3">
-              {websites.map((site, idx) => {
-                const isActive = activeWebsiteId === site.id;
-                return (
-                  <div
-                    key={site.id}
-                    className={`group rounded-2xl border transition-all duration-300 backdrop-blur-sm hover-lift animate-fade-in-up ${
-                      isActive
-                        ? "border-blue-500/40 bg-blue-500/10 shadow-lg shadow-blue-500/10"
-                        : "border-emerald-500/20 bg-black/20 hover:border-blue-500/40"
-                    }`}
-                    style={{ animationDelay: `${idx * 80}ms` }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setActiveWebsiteId(isActive ? null : site.id)}
-                      className="w-full px-6 py-5 text-left flex flex-wrap items-center justify-between gap-3"
-                      aria-expanded={isActive}
-                    >
-                      <div>
-                        <h4 className="text-lg md:text-xl font-semibold text-white group-hover:text-blue-300 transition-colors">
-                          {site.name}
-                        </h4>
-                        <p className="text-sm text-gray-400">{site.stack}</p>
-                      </div>
-                      <span className={`text-blue-300 text-sm font-semibold transition-transform ${isActive ? "rotate-180" : "rotate-0"}`}>
-                        ▾
-                      </span>
-                    </button>
-
-                    <div
-                      className={`px-6 pb-6 transition-all duration-300 ${
-                        isActive ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
-                      } overflow-hidden`}
-                    >
-                      <p className="text-gray-300 text-sm leading-relaxed mb-4">{site.description}</p>
-                      <ul className="space-y-2">
-                        {site.highlights.map((item) => (
-                          <li key={item} className="flex items-start gap-2 text-sm text-gray-300">
-                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-400" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      {site.link && (
-                        <div className="mt-4">
-                          <a
-                            href={site.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center px-4 py-2 rounded-lg border border-blue-500/30 text-blue-300 hover:bg-blue-500/10 transition"
-                          >
-                            Visiter le site
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+        {/* CTA */}
+        <div 
+          className={`text-center pt-12 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+          style={{ transitionDelay: "1200ms" }}
+        >
+          <p className="text-muted-foreground mb-6">
+            Intéressé par mon travail ? Découvrez mon portfolio complet ou contactez-moi.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button size="lg" className="shine-effect" asChild>
+              <Link href="#contact">
+                Discutons de votre projet
+                <ArrowUpRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="glass" asChild>
+              <Link href="https://seydinathdiagneportofolio.vercel.app/" target="_blank">
+                Voir plus de projets
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
-        </div>
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-          <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300">
-            <div className="text-3xl font-bold text-emerald-400 mb-2">{projects.length}</div>
-            <div className="text-gray-400">Projets Réalisés</div>
-          </div>
-          <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300">
-            <div className="text-3xl font-bold text-emerald-400 mb-2">{projects.filter((p) => p.component).length}</div>
-            <div className="text-gray-400">Démos Interactives</div>
-          </div>
-          <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300">
-            <div className="text-3xl font-bold text-emerald-400 mb-2">
-              {Array.from(new Set(projects.flatMap((p) => p.technologies))).length}
-            </div>
-            <div className="text-gray-400">Technologies</div>
-          </div>
-          <div className="p-6 bg-black/20 backdrop-blur-sm border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300">
-            <div className="text-3xl font-bold text-emerald-400 mb-2">100%</div>
-            <div className="text-gray-400">Open Source</div>
-          </div>
-        </div>
-        <div className="mt-12 text-center">
-          <p className="text-gray-400 mb-4">Tous mes projets sont disponibles sur GitHub</p>
-          <a
-            href="https://github.com/seydinath"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-            <span>Voir tous mes projets</span>
-          </a>
         </div>
       </div>
     </section>
-  );
+  )
 }
