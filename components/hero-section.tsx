@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react"
+import { ArrowDown, Github, Linkedin, Mail, Download, Award } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useCountAnimation, useScrollAnimation } from "@/hooks/use-animations"
@@ -120,9 +120,15 @@ export function HeroSection() {
             <span className="px-4 py-1.5 rounded-full glass text-sm font-medium text-foreground">
               Full Stack Developer
             </span>
-            <span className="px-4 py-1.5 rounded-full glass text-sm font-medium text-primary">
+            <Link
+              href="https://www.credly.com/users/seydina-thioub-diagne/badges#credly"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group px-4 py-1.5 rounded-full glass text-sm font-medium text-primary hover:bg-primary/10 hover:border-primary/50 border border-primary/20 transition-all duration-300 flex items-center gap-1.5 hover-lift"
+            >
+              <Award className="h-4 w-4" />
               CCNA Certified
-            </span>
+            </Link>
             <span className="px-4 py-1.5 rounded-full glass text-sm font-medium text-foreground">
               IT Specialist
             </span>

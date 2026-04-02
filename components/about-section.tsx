@@ -1,6 +1,8 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
+import { Award } from "lucide-react"
 import { useScrollAnimation, useTiltEffect } from "@/hooks/use-animations"
 
 const highlights = [
@@ -56,8 +58,24 @@ export function AboutSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
             </div>
 
-            {/* Floating badge */}
-            <div className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl animate-float shadow-2xl">
+            {/* Certifications Badge */}
+            <Link
+              href="https://www.credly.com/users/seydina-thioub-diagne/badges#credly"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute -bottom-6 -right-6 glass-card p-4 rounded-2xl animate-float shadow-2xl hover:shadow-emerald-500/20 hover:bg-emerald-500/10 transition-all duration-300 group"
+            >
+              <div className="text-center">
+                <div className="flex justify-center mb-2">
+                  <Award className="h-6 w-6 text-emerald-500 group-hover:scale-110 transition-transform" />
+                </div>
+                <div className="text-sm font-bold text-foreground group-hover:text-emerald-400 transition-colors">CCNA</div>
+                <div className="text-xs text-muted-foreground mt-0.5">Certifié</div>
+              </div>
+            </Link>
+
+            {/* Experience Badge */}
+            <div className="absolute -bottom-6 -left-6 glass-card p-6 rounded-2xl animate-float shadow-2xl" style={{ animationDelay: "0.5s" }}>
               <div className="text-center">
                 <div className="text-4xl font-bold text-gradient">4+</div>
                 <div className="text-sm text-muted-foreground mt-1">Années</div>
