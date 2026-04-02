@@ -9,22 +9,8 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Seydina Thioub Diagne - Développeur Full Stack & Spécialiste IT',
   description: 'Portfolio de Seydina Thioub Diagne - Développeur Full Stack certifié CCNA avec 4 ans d\'expérience en support technique, réseaux et cybersécurité. Spécialisé en React, Node.js, PHP et SQL.',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
+    icon: '/icon-dark-32x32.png',
     apple: '/apple-icon.png',
   },
 }
