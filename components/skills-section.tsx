@@ -1,8 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
-import { Code2, Server, Network, Shield, Monitor, Users, FileSpreadsheet, Globe, MessageSquare, Brain, Lightbulb, Heart, Target, Zap, Award } from "lucide-react"
-import Link from "next/link"
+import { Code2, Server, Network, Shield, Monitor, Users, FileSpreadsheet, Globe, MessageSquare, Brain, Lightbulb, Heart, Target, Zap } from "lucide-react"
 import { useScrollAnimation, useStaggerAnimation } from "@/hooks/use-animations"
 
 const skillCategories = [
@@ -238,52 +237,6 @@ export function SkillsSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Certifications Credly Section */}
-        <div 
-          className={`mb-20 p-8 rounded-2xl glass-card border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent transition-all duration-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-          style={{ transitionDelay: "400ms" }}
-        >
-          <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-green-500 text-white">
-              <Award className="h-6 w-6" />
-            </div>
-            <div>
-              <h3 className="font-bold text-foreground text-lg">Certifications Professionnelles</h3>
-              <p className="text-xs text-muted-foreground mt-1">Badges validés et vérifiables sur Credly</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="https://www.credly.com/users/seydina-thioub-diagne/badges#credly"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-3 px-6 py-4 rounded-xl bg-muted/30 hover:bg-emerald-500/10 hover:border-emerald-500/50 border border-transparent transition-all duration-300 hover-lift"
-            >
-              <div className="flex flex-col">
-                <span className="font-semibold text-foreground group-hover:text-emerald-400 transition-colors">Cisco CCNA</span>
-                <span className="text-xs text-muted-foreground">3 Modules • Networking Academy</span>
-              </div>
-              <Award className="h-5 w-5 text-emerald-500 group-hover:scale-110 transition-transform" />
-            </Link>
-            
-            <Link
-              href="https://www.credly.com/users/seydina-thioub-diagne/badges#credly"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-3 px-6 py-4 rounded-xl bg-muted/30 hover:bg-emerald-500/10 hover:border-emerald-500/50 border border-transparent transition-all duration-300 hover-lift"
-            >
-              <div className="flex flex-col">
-                <span className="font-semibold text-foreground group-hover:text-emerald-400 transition-colors">Voir tous les badges</span>
-                <span className="text-xs text-muted-foreground">Sur Credly • Vérifiables</span>
-              </div>
-              <Award className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
-            </Link>
-          </div>
         </div>
 
         {/* Languages Section */}
