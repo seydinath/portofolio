@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import Link from "next/link"
-import { ArrowUpRight, Github, Building2, Stethoscope, Hammer, Sparkles, Leaf, Briefcase, BarChart3, ExternalLink, Code2, Globe } from "lucide-react"
+import { ArrowUpRight, Github, Building2, Stethoscope, Hammer, Sparkles, Leaf, Briefcase, BarChart3, ExternalLink, Code2, Globe, Car } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useScrollAnimation, useTiltEffect } from "@/hooks/use-animations"
 
@@ -110,6 +110,32 @@ const personalProjects = [
     color: "from-emerald-500 to-teal-500",
     glowColor: "rgba(16, 185, 129, 0.3)",
     category: "Data Analytics Tool"
+  },
+  {
+    id: 9,
+    title: "Car Location Vert",
+    description: "Plateforme web de location de voitures avec interface moderne, présentation claire des véhicules et parcours orienté conversion pour réserver rapidement.",
+    tags: ["Next.js", "React", "TypeScript", "UI/UX", "Vercel"],
+    link: "https://car-location-vert.vercel.app/",
+    github: "https://github.com/seydinath/CarLocation.git",
+    featured: true,
+    icon: Car,
+    color: "from-lime-500 to-green-500",
+    glowColor: "rgba(132, 204, 22, 0.3)",
+    category: "Application Web"
+  },
+  {
+    id: 10,
+    title: "TaxHacker Dashboard",
+    description: "Dashboard web pour le suivi et l'optimisation fiscale avec une interface orientée productivite et visualisation rapide des donnees clefs.",
+    tags: ["Next.js", "React", "TypeScript", "Dashboard", "Vercel"],
+    link: "https://taxhacker-jade.vercel.app/dashboard",
+    github: "https://github.com/seydinath/TaxHacker.git",
+    featured: true,
+    icon: BarChart3,
+    color: "from-cyan-500 to-blue-500",
+    glowColor: "rgba(6, 182, 212, 0.3)",
+    category: "Dashboard Web"
   },
 ]
 
